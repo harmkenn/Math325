@@ -1,0 +1,12 @@
+name: math_325_notebook2
+title: Math 325 Notebook
+username: harmkenn
+account: harmkenn
+server: shiny.byui.edu
+hostUrl: https://shiny.byui.edu/__api__
+appId: 201
+bundleId: 346
+url: https://shiny.byui.edu/content/201/
+when: 1522340225.59497
+asMultiple: FALSE
+asStatic: TRUE
