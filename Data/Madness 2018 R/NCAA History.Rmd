@@ -1,0 +1,81 @@
+---
+title: "NCAA Division I Basketball Tournament History"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+library(tidyverse)
+```
+
+```{r}
+Allgames <- read.csv("./Pre 2018 History.csv",header=TRUE, stringsAsFactors = FALSE)
+teamconf <- read.csv("./teamconf.csv",header=TRUE, stringsAsFactors = FALSE)
+AGTC <- merge(Allgames,teamconf, by.x = "Winner", by.y = "Team", all.x = TRUE)
+colnames(AGTC)[colnames(AGTC)=="Conference"] <- "WConf"
+AGTCC <- merge(AGTC,teamconf, by.x = "Loser", by.y = "Team", all.x = TRUE)
+colnames(AGTCC)[colnames(AGTCC)=="Conference"] <- "LConf"
+mycolumns<-c(3:7,2,12,8,9,1,13,10,11)
+AGTCCS<-AGTCC[mycolumns]
+AGTCCS$SeD <- AGTCCS$wSeed-AGTCCS$LSeed
+AGTCCS$ScD <- AGTCCS$WScore -AGTCCS$LScore
+AGTCCS$Upset<-paste(AGTCCS$wSeed, AGTCCS$LSeed, sep=" over ")
+write.csv(AGTCCS,"./Pre 2018 History with Conf.csv")
+AllTeamsLong <- read.csv("./Pre 2018 History with Conf Long.csv",header=TRUE, stringsAsFactors = FALSE)
+```
+## {.tabset .tabset-fade}
+
+### Overview
+In 1985, the NCAA expanded their Division I basketball tounament to a 64 team single elimination tournament. Since that time there have been 2117 games (including some play in games).I have been following the NCAA Division I Basketball tournament for about 15 years. During that time, I have been trying to analyze any possible statistical trends in order to better predict and create a winning bracket. 
+
+
+In this project I will analyze one more aspect.  
+
+
+### All Games
+
+```{r}
+datatable(Allgames, extensions = "Responsive",options=list(lengthMenu = c(10,25,68)))
+```
+
+### Seed History
+
+Some interesting trends have occured in the past 33 years.
+
+* A number 5 seed has never won a chapionship even though a 6, 7, and 8 seed have. 
+
+* The 10, 11, and 12 seeds have faired much better than the 9 seeds.
+
+* No 16 seed has ever beaten a 1 seed.
+
+* The number 1 seeds have collected the majority of the championships.
+
+```{r, warning=FALSE}
+Allgames$Round<-factor(Allgames$Round, levels=c("Play-in", "64", "32","16","8","4","Champ"))
+SH<-table(Allgames$wSeed,Allgames$Round)
+rownames(SH)<-c("Seed 1","Seed 2","Seed 3","Seed 4","Seed 5","Seed 6","Seed 7","Seed 8","Seed 9","Seed 10","Seed 11","Seed 12","Seed 13","Seed 14","Seed 15","Seed 16")
+pander(SH)
+```
+
+### Upsets
+
+In 33 seasons of the NCAA Basketball tournament, there have been 296 upsets (at least a 3 seed differential).
+
+
+```{r}
+upsets<-subset(AGTCCS, SeD>=4)
+pander(sort(table(upsets$Upset)),decreasing=TRUE)
+pander(count(upsets$Upset))
+
+pander(table(upsets$WConf))
+```
+
