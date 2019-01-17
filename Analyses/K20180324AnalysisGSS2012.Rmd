@@ -1,0 +1,170 @@
+---
+title: "GSS Multiple Logistic Regression"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r Libraries, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+library(ResourceSelection)
+#library(tidyverse)
+```
+
+
+
+```{r Datafix}
+GSSslim<-read.csv("../Data/GSSslim11.csv", header=TRUE, stringsAsFactors = FALSE)
+
+GSSguns<-subset(GSSslim, gunlaw==2 | gunlaw==1)
+
+GSSguns$Oppose<-GSSguns$gunlaw-1
+
+
+GSSguns$Female<-GSSguns$gender1-1
+
+GSSguns<-GSSguns[c("age","Oppose","Female")]
+```
+## {.tabset .tabset-fade}
+
+### Overview
+
+"The General Social Survey (GSS) conducts basic scientific research on the structure and development of American society with a data-collection program designed to both monitor societal change within the United States and to compare the United States to other nations."[$^1$](http://www3.norc.org/GSS+Website/) It is a cooperative effort to survey the American people every couple years asking a wide variety of questions and has been going on since 1972. The 2012 data file is contained in the file `GSS2012.csv`.
+
+[GSS Dataset](http://sda.berkeley.edu/sdaweb/analysis/?dataset=gss12)
+
+### Analysis
+
+For this analysis, I will explore this question:
+
+<div style="padding-left:15px; font-weight:bold;">
+Can a person's age and gender predict how they feel about requiring a permit to buy a gun? 
+</div>
+
+**AGE** Respondents Age
+
+**Oppose** Would you favor or oppose a law which would require a person 
+to obtain a police permit before he or she could buy a gun?
+
+0. Favor
+1. Oppose
+
+**Female** Head of Household
+
+0. Male
+1. Female
+
+Here is the data I will be using:
+
+```{r Showdata}
+datatable(GSSguns, extensions = "Responsive",options=list(lengthMenu = c(10,25,68)))
+```
+
+
+### Logistic Regression
+
+
+
+```{r Logreg, warning=FALSE}
+GSSg.glm <- glm(Oppose ~ age + Female + age:Female, data=GSSguns, family=binomial)
+pander(summary(GSSg.glm))
+b<-GSSg.glm$coefficients
+pvLR<-coef(summary(GSSg.glm))[2,4]
+```
+
+See the end of this document for the interpretation on the results of this logistic regression.
+
+### Appropriateness
+
+Is Logistical Regression an appropriate model for taking age to predict how people feel about gun permits?
+
+I want to test two things:
+
+1. Does the model show that there is a Significant relationship between age and feelings?
+2. Is Logistic Regression a Good Fit?
+
+##### Significant
+
+From the Logistic Regression, a p-value of **`r pvLR`** on slope shows that there is a signifcant relationship between age and feelings.
+
+##### Goodness of Fit
+
+Using the Hosmer and Lemeshow goodness of fit (GOF) test:
+
+$$
+H_0:\text{Logistical Model is Appropriate}\\H_a:\text{Logistical Model is Not Appropriate}
+$$
+
+```{r GOF, warning=FALSE}
+
+pander(hoslem.test(GSSg.glm$y, GSSg.glm$fitted))
+hlpv<-hoslem.test(GSSg.glm$y, GSSg.glm$fitted)$p.value
+
+table(GSSguns$Oppose, GSSguns$age)
+
+
+pander(hoslem.test(GSSg.glm$y, GSSg.glm$fitted))
+
+summary(GSSg.glm)
+
+#pchisq(1481.7, 1282, lower.tail = FALSE)
+pchisq(1462.5, 1279, lower.tail = FALSE)
+#pchisq(1481.7-1462.5, 3, lower.tail = FALSE)
+
+```
+
+The Hosmer-Lemeshow test will be used to test the goodness of fit of this logistic regression model. The null assumes the logistic regression is a good fit. As shown above, there is insufficient evidence to reject the null **p=`r hlpv`** so we will conclude a good logistic fit on these data.
+
+### Graphics & Model
+
+```{r Plot}
+plot(Oppose ~ age, data=GSSguns, pch=16, cex=0.5, xlim=c(18,110), xlab= "Age", ylab="Oppose Gun Permits")
+
+curve(exp(b[1] + b[2]*x)/(1+exp(b[1] + b[2]*x)),from=0, to=188,  add=TRUE, col='Blue')
+
+curve(exp(b[1]+b[3] + (b[2]+b[4])*x)/(1+exp(b[1]+b[3] + (b[2]+b[4])*x)),from=0, to=188,  add=TRUE, col='red')
+
+legend("right", legend=c("Male", "Female"), col=c("Blue","red"), lty=1)
+```
+
+$\quad Y_{i} = \text{Oppose}$
+$\quad X_{i1} = \text{Age}$
+$\quad X_{i2} = \left\{\begin{array}{ll} 1, & \text{if Gender} = \text{Female} \\ 0, & \text{if Gender} = \text{Male} \end{array}\right.$
+
+$$\underbrace{Y_i}_{Oppose}=\beta_0+\beta_1\underbrace{X_{i1}}_{Age}+\beta_2\underbrace{X_{i2}}_{Female}+\beta_3{X_{i1}X_{i2}}+\epsilon_i $$
+
+$\hat{ Y }_{ i }=$ `r b[1]` + `r b[2]` ${ X }_{ i1 }+$ `r b[3]` ${ X }_{ i2 }+$ `r b[4]` ${ X }_{ i1 }{ X }_{ i2 }$
+
+As we are not interested in `age`, the hypotheses for this study will concern the coefficients of the various responses for `pray`.
+$$
+  H_0: \beta_1 = 0 \\
+  H_a: \beta_1 \neq 0
+$$
+
+$$
+  H_0: \beta_3 = 0 \\
+  H_a: \beta_3 \neq 0
+$$
+
+
+
+
+### Interpretation
+
+1. For males, the effect of `age` on the odds of opposing gun permits is $e^{`r b[2]`} = `r exp(b[2])`$ for every one year increase in age. This means there is a 1% drop in the odds of opposing gun permits for every year older.
+
+2. Females are not significatly different than males.
+
+
+
+
+
+
+

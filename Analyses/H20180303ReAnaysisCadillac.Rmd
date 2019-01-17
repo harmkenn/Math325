@@ -1,0 +1,159 @@
+---
+title: "Cadillac Deville Prices"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+options(scipen = 999)
+```
+
+
+## {.tabset .tabset-fade}
+
+### Overview
+
+**Context**
+
+In this study, I will be looking at the relationship between the selling price of Cadillac Devilles and the mileage on those Cadillacs.
+
+
+**The Study**
+
+To perform this study, I will use a sample of 30 Cadillac Devilles in three different Trim styles.
+
+```{r}
+CarPrices <- read.csv("../Data/CarPrices.csv", header=TRUE, stringsAsFactors = FALSE)
+DevillePrice <- subset(CarPrices, Model == "Deville")
+pander(table(DevillePrice$Trim))
+```
+
+More specifically I will be analyzing the depreciation rates of the different Trim Styles.
+
+1. Is the depreciation rate for the `DHS Sedan 4D` trim style different than 0? Is there significant depreciation from mileage?
+$$
+H_0:\beta_1=0\\H_a:\beta_1\neq0
+$$
+2. Is the depreciation rate for the `DTS Sedan 4D` trim style different than `DHS Sedan 4D`? Is there significant depreciation from mileage?
+$$
+H_0:\beta_4=0\\H_a:\beta_4\neq0
+$$
+3. Is the depreciation rate for the `Sedan 4D` trim style different than `DHS Sedan 4D`? Is there significant depreciation from mileage?
+$$
+H_0:\beta_5=0\\H_a:\beta_5\neq0
+$$
+
+**The Data**
+
+```{r}
+
+datatable(DevillePrice, extensions = "Responsive",options=list(lengthMenu = c(5,30)))
+```
+
+### Analysis
+
+#### Analysis
+
+```{r}
+lmcd <- lm(Price ~ Mileage + Trim + Mileage:Trim, data=DevillePrice)
+
+
+palette(c("blue","red","green"))
+plot(Price~Mileage,data=DevillePrice,
+     col=as.factor(DevillePrice$Trim),pch=16,
+     xlab="Mileage at Time of Sale", ylab="Selling Price")
+b<-lmcd$coefficients
+
+abline(b[1], b[2], col="blue")
+abline(b[1]+ b[3],b[2]+ b[5], col="red")
+abline(b[1]+ b[4],b[2]+ b[6], col="green")
+legend("topright",c("DHS Sedan 4D","DTS Sedan 4D","Sedan 4D"), lty=1, lwd=5, col=palette(), cex=0.7, title="Trim")
+```
+
+It appears that each Trim model has different predicted new price and different depreciation.
+
+I will test to see if there is evidence to suggest that the the trim model have different linear models.
+
+#### Inference
+
+```{r}
+pander(lmcd)
+```
+
+The test of multiple linear regression confirms what the scatter-plot shows; these three models are not all the same.
+
+This is the Price:Mileage Model for all three Trims Styles:
+
+$\quad Y_{i} = \text{Sales Price}$
+$\quad X_{i1} = \text{Mileage}$
+$\quad X_{i2} = \left\{\begin{array}{ll} 1, & \text{if Trim} = \text{DTS Sedan 4D} \\ 0, & \text{if Trim}\neq \text{DTS Sedan 4D} \end{array}\right.$
+$\quad X_{i3} = \left\{\begin{array}{ll} 1, & \text{if Trim} = \text{Sedan 4D} \\ 0, & \text{if Trim}\neq \text{Sedan 4D} \end{array}\right.$
+
+$$\underbrace{Y_i}_{Price}=\beta_0+\beta_1\underbrace{X_{i1}}_{Mileage}+\beta_2{X_{i2}}+\beta_3{X_{i3}}+\beta_4{X_{i1}X_{i2}}+\beta_5{X_{i1}X_{i3}}+\epsilon_i $$
+
+$\hat{ Y }_{ i }=$ `r b[1]` + `r b[2]` ${ X }_{ i1 }+$ `r b[3]` ${ X }_{ i2 }+$ `r b[4]` ${ X }_{ i3 }+$ `r b[5]` ${ X }_{ i1 }{ X }_{ i2 }+$ `r b[6]` ${ X }_{ i1 }{ X }_{ i3 }$
+
+
+### Assumptions
+
+1. **Linear Relation**: Seems Appropriate.
+    
+2. **Normal Errors**: Slightly Skewed
+
+3. **Constant Variance**: Seems Appropriate 
+
+4. **Fixed X**: Mileage is accurate.
+
+5. **Independent Errors**: the error terms are independent.
+
+
+```{r}
+
+par(mfrow=c(1,2))
+plot(lmcd, which=1:2)
+par(mfrow = c(1,1))
+```
+
+
+
+
+### Interpretation
+
+**DHS Sedan 4D** Trim Model
+
+$\underbrace{\hat{Y}_{ i }}_{Selling Price}=$ `r round(b[1],digits=0)` + `r round(b[2],digits=2)` $\underbrace{{ X }_{ i1 }}_{Mileage}$ Meaning: **Expected New Price = \$`r round(b[1],digits=0)`** and **Depreciation = \$`r round(b[2],digits=2)` per mile**
+
+**DTS Sedan 4D** Trim Model
+
+$\underbrace{\hat{Y}_{ i }}_{Selling Price}=$ `r round(b[1]+b[3],digits=0)` + `r round(b[2]+b[5],digits=2)` $\underbrace{{ X }_{ i1 }}_{Mileage}$ Meaning: **Expected New Price = \$`r round(b[1]+b[3],digits=0)`** and **Depreciation = \$`r round(b[2]+b[5],digits=2)` per mile**
+
+**Sedan 4D** Trim Model
+
+$\underbrace{\hat{Y}_{ i }}_{Selling Price}=$ `r round(b[1]+b[4],digits=0)` + `r round(b[2]+b[6],digits=2)` $\underbrace{{ X }_{ i1 }}_{Mileage}$ Meaning: **Expected New Price = \$`r round(b[1]+b[4],digits=0)`** and **Depreciation = \$`r round(b[2]+b[6],digits=2)` per mile**
+
+```{r}
+pander(lmcd)
+```
+
+**Conclusion**
+
+1. With a **p-value≈`r summary(lmcd)$coefficients[2,4]`** on the slope for **DHS Sedan 4D**, we can be assured that depreciation for **DHS Sedan 4D** is not zero.
+
+2. With a **p-value≈`r summary(lmcd)$coefficients[5,4]`** on the slope for **DTS Sedan 4D**, we can be assured that depreciation for **DTS Sedan 4D** is not the same as **DHS Sedan 4D**.
+
+3. With a p-value of `r summary(lmcd)$coefficients[6,4]` on the slope for **Sedan 4D**, we can be assured that depreciation for **Sedan 4D** is not the same as **DHS Sedan 4D**.
+
+I am convinced that the different Trim Styles of the Cadillac Deville have different Linear Depreciation Models. The DHS Model appears to have the highest new selling price and the fastest depreciation.
+
+
+ 
+

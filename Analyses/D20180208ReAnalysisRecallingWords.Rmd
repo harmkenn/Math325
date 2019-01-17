@@ -1,0 +1,164 @@
+---
+title: "Recalling Words"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+<script type="text/javascript">
+ function showhide(id) {
+    var e = document.getElementById(id);
+    e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+ }
+</script>
+
+```{r, include=FALSE}
+library(mosaic)
+library(car)
+library(pander)
+library(DT) #You may need to run: install.packages("DT") 
+```
+
+
+##Background
+
+
+Many teachers and other educators are interested in understanding how to best deliver new content to students. In general, they have two choices of how to do this.
+
+1. The Meshed Approach
+    * Deliver new content while simultaneously reviewing previously understood content.
+
+2. The Before Approach
+    * Deliver new content after fully reviewing previously understood content.
+
+A study was performed to determine whether the *Meshed* or *Before* approaches to delivering content had any positive benefits on memory recall. 
+
+<div style="padding-left:15px;">
+
+##### <a href="javascript:showhide('uniquename')">The Experiment <span style="font-size:8pt;">(click to view)</span></a>
+
+
+<div id="uniquename" style="display:none;">
+
+Individuals were seated at a computer and shown a list of words. Words appeared on the screen one at a time, for two seconds each, until all words had been shown (40 total). After all words were shown, they were required to perform a few two-digit mathematical additions (like 15 + 25) for 15 seconds to avoid immediate memory recall of the words. They were then asked to write down as many of the 40 words as they could remember. They were given a maximum of 5.3 minutes to recall words.
+
+The process of showing words and recalling words was repeated four times with the same list of words each time (four chances to get it right). The presentation of the first trial was the same for all treatment conditions. However, trials 2, 3, and 4 were slightly different for each treatment condition.
+
+<div style="padding-left:15px;">
+
+The `SFR` group (the control group) stands for Standard Free Recall. In all four trials the same list of 40 words was presented, in a random order each time.
+
+The `Before` group also used the same 40 words during each trial. However, any words that were correctly recalled in a previous trial were presented first, or *before* the words that were not recalled in the last trial. After all the correct words were presented in random order, the non-recalled words were presented in a random order.
+
+The `Meshed` group also used the same 40 words during each trial. However, words that were correctly recalled in a previous trial were alternated with a missed word during the next presentation order. 
+
+</div>
+
+The data records the number of correctly recalled words (out of the 40 possible) from the fourth trial. Results were obtained for 30 students, 10 in each of the three treatment groups: `SFR`, `Before`, and `Meshed`. 
+
+</div>
+
+##### <a href="javascript:showhide('uniquename2')">The Data <span style="font-size:8pt;">(click to view)</span></a>
+
+<div id="uniquename2" style="display:none;">
+
+The results from the study can be found in the `Friendly` data set in R after loading `library(car)`. 
+
+Click the "Code" button to see the data.
+
+
+```{r}
+FSplit<-Friendly
+FC <- as.character(Friendly$condition)
+FC[FC != "SFR"] <- "Ordered"
+FC[FC == "SFR"] <- "Random" 
+FSplit$type <- FC
+
+datatable(
+  FSplit, extensions = 'Buttons', options = list(
+    dom = 'Bfrtip',
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+  )
+)
+```
+
+
+</div>
+</div>
+
+<br />
+
+
+<!-- Begin writing your analysis below here. -->
+### the Study
+
+I will study the effectiveness of word presentation on word recall. First, I will analyze if order is better than random. If order is more effective, I will then analyze which ordered presentation is more effective.  
+
+<!-- Note that your goal is to use the Friendly data to show whether or not the Meshed or Before methods have any positive benefit on memory recall. -->
+## Analysis #1
+
+**Question #1:** Does organizing the order (Before or Meshed) of the words have a greater positive effect on retention rather than merely randomizing the order (SFR) of the words?
+
+$$
+{ H }_{ 0 }:\quad { { Median }_{ ordered }=Median }_{ random }\\ { H }_{ a }:\quad { { Median }_{ ordered }>Median }_{ random }
+$$
+Here are the summary statistics and the box-plots of the final word counts remembered for each category (Ordered and Random). 
+
+```{r, warning=FALSE}
+pander(favstats(correct~type, data = FSplit))
+#ggplot(data = KidsFeet, aes(x = birthyear, y = length)) + geom_boxplot()  + aes(colour = birthyear) + labs(title = "Foot Length of Sample fourth Graders\nby Birth Year") + coord_flip() +labs(y="Foot Length",x="Birth Year")+ theme(plot.title = element_text(hjust = 0.5))
+ggplot(data = FSplit, aes(x = type, y = correct)) + geom_boxplot()  + aes(colour = type) + labs(title = "The Number of Words Remembered\n Grouped by type of Presentation Strategy") + coord_flip()+labs(y="Words Remembered",x="Type of Presentation Strategy")+ theme(plot.title = element_text(hjust = 0.5))
+```
+
+The summary results suggest that an ordered presentation strategy is more effective in word retention than random order. To be certain, we will perform a Wilcoxon Rank Sum (Mann-Whitney) Test.
+
+### Wilcoxon Rank Sum (Mann-Whitney) Test
+
+```{r, warning=FALSE}
+pander(wilcox.test(correct~type, data = FSplit, alternative = "greater" ))
+
+wtp<-wilcox.test(correct~type, data = FSplit, alternative = "greater" )$p.value
+```
+
+## Interpretation #1
+
+The p-value is **`r wtp`**, which would lead to a rejection of the null hypothesis at the $\alpha = .05$ level of significance; we would then conclude that an ordered presentation strategy is more effective than a random presentation. **However**, there were many tied results which makes the Wilcoxon Test less effective. 
+
+## Analysis #2
+
+**Question #2:** Since organizing the order (Before or Meshed) of the words has a greater positive effect on retention than merely randomizing the order (SFR) of the words, is the "Before" method better than the "Meshed" method?
+
+$$
+{ H }_{ 0 }:\quad { { Median }_{ Meshed }=Median }_{ Before }\\ { H }_{ a }:\quad { { Median }_{ Meshed }< Median }_{ Before }
+$$
+Here are the summary statistics and the box-plots of the final word counts remembered for each category (Before and Meshed). 
+
+```{r, warning=FALSE}
+Friendly$condition<-as.character(Friendly$condition)
+FTwo<-subset(Friendly, condition %in% c("Before","Meshed"))
+
+pander(favstats(correct~condition, data = FTwo))
+
+ggplot(data = FTwo, aes(x = condition, y = correct)) + geom_boxplot()  + aes(colour = condition) + labs(title = "The Number of Words Remembered\n Grouped by type of Presentation Strategy") + coord_flip()+labs(y="Words Remembered",x="Type of Presentation Strategy")+ theme(plot.title = element_text(hjust = 0.5))
+```
+
+The summary results suggest that the "Before" presentation strategy is more effective in word retention than the "Meshed" presentation strategy. To be certain, we will perform a Wilcoxon Rank Sum (Mann-Whitney) Test
+
+### Wilcoxon Rank Sum (Mann-Whitney) Test
+
+```{r, warning=FALSE}
+pander(wilcox.test(correct~condition, data = FTwo, alternative = "greater" ))
+
+wtp<-wilcox.test(correct~condition, data = FTwo, alternative = "greater" )$p.value
+```
+
+## Interpretation #2
+
+Since the p-value is **`r wtp`**, we **fail to reject** the null hypothesis; we would then conclude that there is **insufficient evidence** to state that the "Before" presentation strategy is more effective than the "Meshed" presentation strategy.  
+
+
+
+

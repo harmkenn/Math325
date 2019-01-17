@@ -1,0 +1,85 @@
+---
+title: "Student Housing Costs"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+
+```{r, include=FALSE, r, echo=FALSE}
+library(mosaic)
+library(DT) 
+
+Rent <- read.csv("./Data/Rent.csv", header=TRUE)
+FRent <- subset(Rent, !is.na(Cost))
+FRent <- subset(FRent, Gender=="F")
+mycolumns<-c(1:8,12,15,16)
+FRent<-FRent[mycolumns]
+```
+
+
+
+## Background
+
+Stephanie[^1] is a student that will be starting school at BYU-Idaho next semester. Here is a copy of the email request for information that she sent.
+
+"Hi. My name is Stephanie. I would like to learn about what housing options I have for living at BYU-Idaho next semester. It will be my first semester there, so I would like to find something that is close to campus and around $300 a month in rent. I'm not too picky on roomates, but I would like somewhere that has a lot of people around so I can get to know as many people as possible. Thanks in advance!"
+
+Here is the list of `r nrow(FRent)` female apartments that list their semester rent on the [BYU-Idaho Housing Website](https://web.byui.edu/tis/search).
+
+### Dataset of Female Housing
+```{r, echo=FALSE}
+datatable(FRent,extensions = "Responsive", options=list(lengthMenu = c(3,10,30)))
+```
+
+## Analysis
+Stephanie has suggested that she has two criteria when choosing and aparment complex.
+
+* Budget \$300 per month or \$970 for a 14-week semester
+* An aprtment complex with a lot of people
+
+### Summary statistics of Female Housing Costs
+```{r, echo=FALSE}
+favstats(~Cost, data=FRent)
+```
+### Summary statistics of Number of Residents
+```{r, echo=FALSE}
+favstats(~Residents, data=FRent)
+```
+
+### Graphical Representation of the Results
+Because of Stephanie's criteria, I have eliminated the extreme 25% of complexes 
+
+* Fewer than 23 residents
+* Rent greater than 1277
+```{r, echo=FALSE}
+
+OFRent<-FRent[order(FRent$Cost),]
+OFRent$size<-cut(OFRent$Residents, breaks = c(0,22,92,210,999), 
+                 labels=c("", "24 to 92", "93 to 210","211 to 636"))
+
+OFRentR<-subset(OFRent, size!="")
+OFRentRC<-subset(OFRentR, Cost<1277)
+
+OFRentRC$color[OFRentRC$size=="24 to 92"]<-"blue"
+OFRentRC$color[OFRentRC$size=="93 to 210"]<-"green"
+OFRentRC$color[OFRentRC$size=="211 to 636"]<-"black"
+
+rownames(OFRentRC)<-OFRentRC$Apartment
+dotchart(OFRentRC$Cost,labels=row.names(OFRentRC),cex=.7,groups= OFRentRC$size,
+         main="Female Housing Costs \nGrouped by Number of Residents",
+         xlab="Cost per Semester", gcolor="black", color=OFRentRC$color)
+```
+
+
+## Interpretation
+
+Stephanie can use this graphic to narrow her search. She says that cost and size of the complex are he criteria; but, she may want research other aspects of these `r nrow(OFRentRC)` complexes for intangibles not contained in the dataset.
+
+
+
+
+[^1]: Note that Stephanie is a fictional character who is based on real experiences of many faculty and staff here at BYU-Idaho.

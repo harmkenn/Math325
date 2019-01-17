@@ -1,0 +1,147 @@
+---
+title: "Ken Pomeroy's Predictions"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+#library(tidyverse)
+```
+
+```{r}
+g2017<-read.csv("../Data/2017games.csv", header=TRUE, stringsAsFactors = FALSE)
+
+NCAA2017 <- g2017[c(1,3,6,10)]
+NCAA2017$W.Rating<-g2017$Wrating
+NCAA2017$L.Rating<-g2017$Lrating
+NCAA2017$Abs<-g2017$Abs
+NCAA2017$W.L<-g2017$Hit
+
+```
+## {.tabset .tabset-fade}
+
+### Overview
+
+Ken Pomeroy is a professional NCAA college basketball statistician that calculates team efficiency.
+
+[AdjEM](https://kenpom.com/blog/ratings-methodology-update/) is the difference between a team’s offensive and defensive efficiency. It represents the number of points the team would be expected to outscore the average Division I team over 100 possessions and it has the advantage of being a linear measure. The difference between +31 and +28 is the same as the difference between +4 and +1. It is three points per 100 possessions which is much easier to interpret. 
+
+There were 67 games in the 2017 NCAA basketball tournament. Here is the data set of those games along with the AdjEM for each team and if the diffence of those ratings correctly predicted the winner.
+
+```{r}
+datatable(NCAA2017, extensions = "Responsive",options=list(lengthMenu = c(10,25,68)))
+```
+
+
+### Logistic Regression
+
+Can we create a model using the [AdjEM](https://kenpom.com/blog/ratings-methodology-update/) for two teams to predict the winner? 
+
+To model the probability of a team winning given the AdjEM differential, we could apply the logistic regression model
+$$
+  P(Y_i = 1|x_i) = \frac{e^{\beta_0+\beta_1 x_i}}{1+e^{\beta_0 + \beta_1 x_i}} = \pi_i
+$$
+where for observation $i$: 
+
+* $Y_i = 1$ denotes the favored team wins, 
+* $Y_i = 0$ denotes the favored team looses, and 
+* $x_i$ denotes the AdjEM differential. 
+
+$$
+  H_0: \beta_1 = 0 \\
+  H_a: \beta_1 \neq 0
+$$
+
+I took the difference in Ken Pomeroy's AdjEM for each of the two teams in each of the 67 NCAA tournament games for 2017. I used that difference to prdict the winner of each matchup. Then I recorded if the predicted winner actually won. I took these results and using logistic regression, I created a model for predicting the probability that the higher rated team will actually win.
+
+```{r, warning = FALSE}
+plot(W.L~Abs,data=NCAA2017, pch=16, xlab="Absolute Difference in AdjEM", ylab = "Predicted Winner Results", main="Ken Pomeroy's AdjEM Differential Prediction Model")
+KP.glm <- glm(W.L~Abs,data=NCAA2017, family=binomial)
+pander(summary(KP.glm))
+
+b<-KP.glm$coefficients
+pvLR<-coef(summary(KP.glm))[2,4]
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)
+pc<-predict(KP.glm, data.frame(Abs=10), type='response')
+```
+
+### Appropriateness
+
+Is Logistical Regression an appropriate model for taking the difference of AdjEM and predicting the probability of a team winning?
+
+I want to test two things:
+
+1. Does the model show that there is a Significant relationship between AdjEM and winning?
+2. Is Logistic Regression a Good Fit?
+
+##### Significant
+
+From the Logistic Regression, a p-value of **`r pvLR`** on slope shows that there is a signifcant relationship between AdjEM and winning.
+
+##### Goodness of Fit
+
+Using the Hosmer and Lemeshow goodness of fit (GOF) test:
+
+$$
+H_0:\text{Logistical Model is Appropriate}\\H_a:\text{Logistical Model is Not Appropriate}
+$$
+Note: The Hosmer and Lemeshow is a good test for goodness of fit because there are no repeated values.
+
+```{r, warning=FALSE, message=FALSE}
+library(ResourceSelection)
+
+pander(hoslem.test(KP.glm$y, KP.glm$fitted, g=10))
+pvHL<-hoslem.test(KP.glm$y, KP.glm$fitted, g=10)$p.value
+# Note: doesn't give a p-value for g >= 7, default is g=10.
+# Larger g is usually better than smaller g.
+```
+
+With a p-Value of **`r pvHL`**, there is very little evidence that this Logistic Regression Model has a poor fit.
+
+
+### Interpretation
+
+```{r}
+plot(W.L~Abs,data=NCAA2017, pch=16, xlab="Absolute Difference in AdjEM", ylab = "Predicted Winner Results", main="Ken Pomeroy's AdjEM Differential Prediction Model")
+KP.glm <- glm(W.L~Abs,data=NCAA2017, family=binomial)
+
+
+b<-KP.glm$coefficients
+
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)
+```
+
+
+
+##### Conclusion
+
+It appears that Ken Pomeroy's evaluation of team efficiency is an appropriate predictor of the winner in the 2017 NCAA tournament.
+
+Notice that when the difference between AdjEM of two teams is near zero, the probability of winning is near 50%; this is to be expected. The trouble with the interpretation of $e^{b_0}$ is that it is difficult to determine the favored team if the differential is zero. 
+
+The value of $e^{b_1} = e^{`r b[2]`} \approx `r exp(b[2])`$ shows that the odds of the winning, given a positive AdjEM differential, increases by a factor `r exp(b[2])-1` for every 1 point change in AdjEM. 
+
+To compute the probability of a team winning that has a 10 point advantage in AdjEM we could use this model:
+
+```{r}
+p10<-predict(KP.glm, data.frame(Abs=10), type='response')
+```
+
+
+$$
+  P(Y_i = 1|x_i=10) \approx \frac{e^{`r b[1]`+`r b[2]`\cdot 10}}{1+e^{`r b[1]`+`r b[2]`\cdot 10}} = \hat{\pi}_i=`r p10`
+$$
+
+##### Special Note
+
+On 16 Mar 2018, the unthinkable happened. The University of Maryland in Baltimore County had their first invitation to the NCAA tournament. They defeated the #1 ranked team in the tournament, the University of Virgina by 20 points. Ken Pomeroy had the difference in AdjEM as 34 points. 
+

@@ -1,0 +1,147 @@
+---
+title: "Chocolate"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, include=FALSE}
+# Be sure to use your file menus at the top of R-Studio to:
+# "Session -> Set working directory -> To source file location"
+# Then play this chunk and the next one to get the data into R.
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+
+
+```
+
+
+<!-- Instructions:
+
+ Use the Chocolate dataset and a Kruskal-Wallis Test(s) to answer an interesting question(s) that you come up with.
+ 
+ About the dataset:
+ 
+  * Company: Name of the company manufacturing the bar.
+
+  * Orig: The specific geo-region of origin for the bar.
+
+  * Review: Date of publication of the review.
+
+  * Cocoa: Cocoa percentage (darkness) of the chocolate bar being reviewed.
+
+  * Location: Manufacturer base country.
+
+  * Rating: Expert rating for the bar.
+      5= Elite (Transcending beyond the ordinary limits)
+      4= Premium (Superior flavor development, character and style)
+      3= Satisfactory(3.0) to praiseworthy(3.75) (well made with special qualities)
+      2= Disappointing (Passable but contains at least one significant flaw)
+      1= Unpleasant (mostly unpalatable)
+
+   * Type: The variety (breed) of cocoa bean used, if provided.
+   
+   * BroadOrig: The broad geo-region of origin for the bean.
+
+Note this dataset and description come from: © 2018 Kaggle Inc for further details visit:
+
+[Kaggle.com](https://www.kaggle.com/rtatman/chocolate-bar-ratings/data)
+
+
+If you want to give your critiquers some ideas about what you have questions on and would like help with, place those details here.-->
+
+
+
+
+
+
+## {.tabset .tabset-fade}
+
+
+
+### Overview
+
+**Context**
+
+Chocolate is one of the most popular candies in the world. Each year, residents of the United States collectively eat more than 2.8 billion pounds. However, not all chocolate bars are created equal! This dataset contains expert ratings of over 1,700 individual chocolate bars, along with information on their regional origin, percentage of cocoa, the variety of chocolate bean used and where the beans were grown.
+
+**Flavors of Cacao Rating System:**
+
+* 5= Elite (Transcending beyond the ordinary limits)
+* 4= Premium (Superior flavor development, character and style)
+* 3= Satisfactory(3.0) to praiseworthy(3.75) (Well made with special qualities)
+* 2= Disappointing (Passable but contains at least one significant flaw)
+* 1= Unpleasant (mostly unpalatable)
+
+The four countries that act as the base for the most chocolate manufaturers are listed in this table:
+
+```{r}
+choc <- read.csv("../Data/Chocolate.csv",header=TRUE, stringsAsFactors = FALSE)
+mychoc <- subset(choc, Location %in% c("U.S.A.","Canada","U.K.","France"))
+mychoc$Location <- as.factor(mychoc$Location)
+pander(table(mychoc$Location), caption = "Number of Chocolate Bars from each Country")
+```
+
+**The Study**
+
+Is there a difference in the quality of the chocolate between these countries?
+
+### To Critiquers
+
+Dear Critiquer,
+
+There are a lot more countries than the four I chose. But these are the largest four.
+
+Tell me if there is something I can do to make this study better.
+
+
+### Analysis
+
+#### Inference
+
+Even though chocolate quality varies between different bars, can we find a difference between the top four manufacturing countries?
+
+$$
+{ H }_{ 0 }:\text{Every sample of chocolate bars from each country is taken from the same quality distribution.}\\ { H }_{ a }:\text{Not every sample of chocolate bars from each country is taken from the same quality distribution.}
+$$
+
+#### Initial Sample Distribution Analysis
+
+```{r}
+boxplot(Rating~ Location, data=mychoc, ylab="Expert Rating", xlab="Countries that have the most Chocolate Bars", main="Expert Rating of Chocolate \nby Countries that have the most Chocolate Bars", col=c("blue","gold"))
+pander(favstats(Rating~ Location, data=mychoc))
+```
+
+Notice that the distributions of the quality of the chocolate bars from different countries do not appear to be the same.
+
+#### Test of Significance
+
+```{r}
+mychoc <- subset(choc, Location %in% c("U.S.A.","Canada","U.K.","France"))
+mychoc$Location <- as.factor(mychoc$Location)
+pander(kruskal.test(Rating~ Location, data=mychoc))
+kp<-kruskal.test(Rating~ Location, data=mychoc)$p.value
+kp<-format(kp, scientific=FALSE)    
+
+```
+
+### Interpretation
+
+#### Conclusion
+
+With a p-value = `r kp`, we consider it unlikely that these samples are from the same distribution. 
+
+* We reject the null hypothesis.
+* We conclude that there is sufficient evidence to claim that not all of these samples are from the same distribution. 
+* Canada appears to have the best chocolate Bars.
+* The U.K. appears to have the worst chocolate Bars.
+
+
+
+

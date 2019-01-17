@@ -1,0 +1,134 @@
+---
+title: "NCAA Division I Basketball Tournament History"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+#library(tidyverse)
+```
+
+```{r}
+AllgamesWC <- read.csv("../Data/History with Conf.csv",header=TRUE, stringsAsFactors = FALSE)
+AllgamesWCP <- AllgamesWC
+AllgamesWCP$SeD <- AllgamesWC$wSeed-AllgamesWC$LSeed
+AllgamesWCP$ScD <- AllgamesWCP$WScore -AllgamesWCP$LScore
+AllgamesWCP$Result<-paste(AllgamesWCP$wSeed, AllgamesWCP$LSeed, sep=" over ")
+write.csv(AllgamesWCP,"../Data/History with Conf Plus.csv")
+AllTeamsLong <- read.csv("../Data/History with Conf Long.csv",header=TRUE, stringsAsFactors = FALSE)
+```
+## {.tabset .tabset-fade}
+
+### Overview
+In 1985, the NCAA expanded their Division I basketball tournament to a 64 team single elimination tournament. Since that time there have been 2117 games (including some play-in games). I have been following the NCAA Division I Basketball tournament for about 15 years. During that time, I have been trying to analyze any possible statistical trends in order to better predict and create a winning bracket. About 40 Million people participate and fill out [70 Million brackets](https://www.quora.com/How-many-people-fill-out-a-March-Madness-bracket-every-year) every year. ESPN's contest is approaching [20 million brackets](http://www.espn.com/blog/collegebasketballnation/post/_/id/118415/tournament-challenge-new-record-set-for-number-of-brackets-submitted) alone. Even though analyzing the statistics for March Madness is a statistical nightmare, I was able to get a bracket in the 99.9th percentile in the ESPN contest in 2017.  
+
+This is the data set of all games that have been played in the NCAA Tournament since 1985 (2117 games).
+
+```{r}
+datatable(AllgamesWCP, extensions = "Responsive",options=list(lengthMenu = c(10,25,68)))
+```
+
+### Seed History
+
+Some interesting trends have occurred in the past 33 years.
+
+* A number 5 seed has never won a championship even though a 6, 7, and 8 seed have. 
+
+* The 10, 11, and 12 seeds have fared much better than the 9 seeds.
+
+* No 16 seed has ever beaten a 1 seed.
+
+* The number 1 seeds have collected the majority of the championships.
+
+```{r, warning=FALSE}
+AllgamesWCP$Round<-factor(AllgamesWCP$Round, levels=c("Play-in", "64", "32","16","8","4","Champ"))
+SH<-table(AllgamesWCP$wSeed,AllgamesWCP$Round)
+rownames(SH)<-c("Seed 1","Seed 2","Seed 3","Seed 4","Seed 5","Seed 6","Seed 7","Seed 8","Seed 9","Seed 10","Seed 11","Seed 12","Seed 13","Seed 14","Seed 15","Seed 16")
+pander(SH)
+```
+
+### The Big Six
+
+Even though there are 32 basketball conferences, for this tournament there are six conferences (ACC, B10, SEC, B12, BE, P12) that are awarded over half of the tournament invitations.
+
+```{r}
+All64<-subset(AllTeamsLong,Round=="64")
+All64big6<-subset(All64,Conf %in% c("ACC","B10","SEC","B12","BE","P12"))
+pander(sort(table(All64big6$Conf),decreasing = T),caption = "Number of Appearences by Conference")
+
+```
+
+#### Inference
+
+These six conferences are the basketball powerhouses; but is there a difference among them?
+
+$$
+{ H }_{ 0 }:\text{Every conference has the same distribution of seeds.}\\ { H }_{ a }:\text{Not every conference has the same distribution of seeds.}
+$$
+
+##### Initial Distribution Analysis
+
+```{r}
+boxplot(Seed ~ Conf, data=All64big6, ylab="Big Six Conferences", xlab="Seeds Awarded (1 seed is best & 16 seed is worst)", main="Seeds Awarded \nby Conference", col=c("red","orange","yellow","green","blue","purple"), horizontal=TRUE, ylim=c(1,16))
+
+pander(favstats(Seed ~ Conf, data=All64big6))
+```
+
+It appears the the ACC has the advantage of the better seed invitations.
+
+#### Test of Significance
+
+```{r}
+
+pander(kruskal.test(Seed ~ as.factor(Conf), data=All64big6))
+kp<-kruskal.test(Seed ~ as.factor(Conf), data=All64big6)$p.value
+kp<-format(kp, scientific=FALSE)    
+
+```
+
+With a p-value = `r kp`, we consider it unlikely that these samples are from the same distribution. 
+
+### Interpretation
+
+#### Conclusion
+
+With a p-value = `r kp`, we consider it unlikely that these samples are from the same distribution. 
+
+* We reject the null hypothesis.
+* We conclude that there is sufficient evidence to claim that not all of these samples are from the same distribution. 
+* The ACC appears to have the best seeds awarded.
+
+
+#### Follow-up
+
+The ACC and the B10 have the best seed average. Are they significantly different from each other?
+
+$$
+{ H }_{ 0 }:\text{The ACC and B10 have the same distribution of seeds.}\\ { H }_{ a }:\text{The ACC and B10 do not have the same distribution of seeds.}
+$$
+
+```{r}
+pander(wilcox.test(Seed ~ as.factor(Conf), data=All64big6, subset = Conf %in% c("ACC", "B10")))
+
+wp<-wilcox.test(Seed ~ as.factor(Conf), data=All64big6, subset = Conf %in% c("ACC", "B10"))$p.value
+```
+
+With a p-value = `r wp`, we consider it unlikely that the ACC and the B10 are from the same distribution. 
+
+* We reject the null hypothesis.
+* We conclude that there is sufficient evidence to claim that the ACC and B10 do not have the same distribution of seeds. 
+* The ACC appears to have the best seeds awarded.
+
+
+
+
+

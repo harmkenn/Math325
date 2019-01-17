@@ -1,0 +1,78 @@
+---
+title: "Movies"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+## Background
+```{r, include=FALSE}
+library(mosaic)
+library(plotly)
+library(DT)
+library(pander)
+```
+
+```{r}
+
+#movies <- read.csv("../Data/movies.csv", header=TRUE)
+movies31 <- read.csv("../Data/movies31.csv", header=TRUE,stringsAsFactors = FALSE)
+CPI <- read.csv("../Data/CPI 1914 to 2017.csv", header=TRUE, stringsAsFactors = FALSE)
+
+movies31New<-merge(movies31,CPI, by.x = "year", by.y = "Year", all.x = TRUE)
+movies31New$Budget2017<-movies31New$budget*movies31New$Factor
+movies31New$Gross2017<-movies31New$gross*movies31New$Factor
+movies31New$Profit2017<-movies31New$Gross2017-movies31New$Budget2017
+#rownames(movies31New)<-movies31New$name
+moviec<-c(1,10,8,3,4,9,6,2,7,19,20,21,11,14,12,5,13,15)
+msort<-movies31New[moviec]
+#table(msort$rating)
+#b<-which(msort$rating == "R" | msort$rating == "PG" | msort$rating == "PG-13" | msort$rating == "G")
+mr4<-subset(msort, rating %in% c("G","PG","PG-13","R"))
+write.csv(mr4, file = "../Data/mr4.csv")
+```
+[IMDB](WWW.imdb.com) is an online database of information related to films and other entertainment[^1].  The movies dataset in this analysis is limited to movies within the following common MPAA ratings: "G", "PG", "PG-13", and "R".
+
+This movie dataset can be downloaded here: [Movies (1986-2016)](https://webmailbyui-my.sharepoint.com/:x:/g/personal/harmkenn_byui_edu/EY_ZxGymiBJLr2iL1tbNu1IBVOYSVvwBEVQHNMuNTXYsKQ?e=jIdGXM)
+
+## Analysis
+I took the budget and gross sales of each movie and converted them into 2017 dollars for comparison[^2]. The difference between the gross sales and the budget is a good estimator of the profit margin for each movie.
+
+### Comparison of the Profit Margins by MPAA Rating
+
+```{r}
+attach(mr4)
+pander::pander(favstats(Profit2017~rating, data = mr4))
+```
+The summary statistics of each rating subgroup show that as the MPAA rating restriction increases, the profit margin tends to decrease.
+
+### Graphical Comparison
+```{r}
+
+plot_ly(x=mr4$Profit2017, color=mr4$rating, type="box") %>% layout(title="Distribution of Profit Margins for Movies 1986-2016\n Grouped by MPAA Rating")
+  
+  
+
+```
+
+### Movie Popularity
+The number of movies produced shows a reverse trend to the profit margins; as the MPAA restriction increases, the number of movies produced also increases.
+
+#### Movies Produced
+```{r}
+pander::pander(table(mr4$rating))
+```
+## Interpretation
+It seems like if a less restricted movie is more profitable, then that would be the type of movie companies would want to produce. I understand that the Law of Diminishing Returns would apply here. If you flood the market with G-rated movies, the distribution of profits would decrease; but it makes fiscal sense that the lower the rating, the greater the market.
+
+
+[^1]: (Click on the link for details about the [IMDB movies dataset](https://www.kaggle.com/danielgrijalvas/movies/data).)
+  
+[^2]: Convert all budgets into 2017 dollars: [Relative Dollars](https://www.measuringworth.com/uscompare) &        [CPI](https://www.saving.org/inflation/inflation.php?amount=100&year=1920)
+
+
+
+
+

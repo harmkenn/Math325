@@ -1,0 +1,148 @@
+---
+title: "Pulse of the Nation Chi-Square"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r Libraries, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+library(ResourceSelection)
+options(scipen=999)
+#library(tidyverse)
+```
+
+```{r Datafix}
+POTN<-read.csv("../Data/201709PotNs.csv", header=TRUE, stringsAsFactors = FALSE)
+
+```
+
+## {.tabset .tabset-fade}
+
+### Overview
+
+[Pulse of the Nation](https://thepulseofthenation.com/#intro) is a government funded monthly public opinion poll. The organization "Fifth Day of Cards Against Humanity Saves America" conducted the poll . To conduct their polls in a scientifically rigorous manner, they partnered with Survey Sampling International — a professional research firm — to contact a nationally representative sample of the American public. They interrupted people’s dinners on both their cell phones and land-lines to examine the data for statistically significant correlations. 
+
+The [Dataset](https://thepulseofthenation.com/downloads/201709-CAH_PulseOfTheNation_Raw.csv) I will use is a subset of the results of the [survey for September 2017](https://thepulseofthenation.com/#poll-1).
+
+### Dataset
+
+For this analysis, I will explore this question:
+
+**Is Political Affiliation independent of Marital Status?**
+
+The levels for each category are:
+
+**PA:** Political Affiliation
+
+* Democrat
+* Don't Know
+* Independent
+* Republican
+
+**MS:** Marital Status
+
+* Divorced
+* Relationship
+* Married
+* Separated 
+* Single
+* Widowed
+
+Here is the data I will be using:
+
+```{r Showdata}
+datatable(POTN, extensions = "Responsive",options=list(lengthMenu = c(10,25,68)))
+```
+
+### Chi-Squared test of independence
+
+To test to see if political affiliation is independent of marital status, I will test
+
+$$
+  H_0:\text{Political affiliation is independent of marital status.}
+$$
+$$
+  H_a:\text{Political affiliation is associated with marital status.}
+$$
+
+#### Observed Counts
+```{r, warning=FALSE}
+table.pams<-table(POTN$MS,POTN$PA)
+pander(table.pams)
+barplot(table.pams,col=c("blue","purple","red","orange","yellow","green") ,beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft", bty="n"))
+
+```
+
+#### Chi-Squared Results
+```{r, warning=FALSE}
+chipotn <- chisq.test(table.pams)
+pander(chipotn)
+cpv<-chisq.test(table.pams)$p.value
+CarPrices<-CarPrices
+qqnorm(CarPrices$Mileage)
+
+```
+
+
+### Interpretation
+
+#### Assumptions
+
+1. Because of the nature of this data collection, we can assume that the data is randomly collected.
+2. All of the expected counts are greater than 1.
+2. Even though not all of the expected counts are greater than 5, the average of the counts is greater than 5.
+
+#### Expected Counts
+```{r}
+pander(chipotn$expected) 
+
+```
+
+#### Conclusion
+
+The Chi-squared test of independence between political affiliation and marital status yields a p-value of *`r cpv`*. The test results seem significant.
+
+1. Reject the null hypothesis.
+2. Conclude that political affiliation is associated with marital status.
+
+#### Residuals
+```{r}
+pander(chipotn$residuals)
+barplot(chipotn$residuals,col=c("blue","purple","red","orange","yellow","green") , beside=TRUE, legend.text=TRUE, args.legend=list(x = "bottom", bty="n"))
+```
+
+#### Unexpected Results
+
+1. Republicans have an unexpectedly low rate of singles.
+2. Republicans have an unexpectedly high rate of marriage.
+3. The unaffiliated have an unexpectedly low rate of marriage.
+4. The unaffiliated have and unexpectedly high rate of singles.
+5. The Democrats have and unexpectedly high rate of singles.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

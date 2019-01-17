@@ -1,0 +1,38 @@
+---
+title: "Kids Feet t Test"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, include=FALSE}
+library(mosaic)
+library(DT)
+```
+
+```{r, eval=FALSE, include=FALSE}
+# Run this in your Console to see the data.
+View(KidsFeet)
+?KidsFeet
+```
+
+<!-- Instructions
+
+1. Use the KidsFeet dataset in R to come up with a question that can be answered with a t Test (One Sample, Paired Samples, or Independent Samples).
+
+2. Establish why the question is interesting. State the question in written form as well as with a statistical "null" and "alternative" hypothesis.
+
+3. Clearly answer your question using statistics. Be sure to compute a p-value and provide supporting numerical and graphical summaries. Also be sure to establish whether or not the requirements of your t test have been satisfied. (See the Math 325 Notebook for details.)
+
+-->
+
+
+Starter code for writing hypotheses:
+
+$$
+  H_0: \mu_{\text{something}} - \mu_{\text{else}} = 0
+$$
+$$
+{ H }_{ 0 }:{ \mu  }_{ something }-{ \mu  }_{ else }=0\\ { H }_{ a }:{ \mu  }_{ something }-{ \mu  }_{ else }\neq 0
+$$

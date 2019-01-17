@@ -1,0 +1,132 @@
+---
+title: "Kids Feet Length t-Test"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    toc: true
+    toc_float: true
+---
+
+```{r, include=FALSE}
+library(mosaic)
+library(DT)
+library(pander)
+library(car)
+library(ggplot2)
+```
+
+```{r, eval=FALSE, include=FALSE}
+# Run this in your Console to see the data.
+View(KidsFeet)
+KidsFeet<-KidsFeet
+?KidsFeet
+```
+
+<!-- Instructions
+
+1. Use the KidsFeet dataset in R to come up with a question that can be answered with a t Test (One Sample, Paired Samples, or Independent Samples).
+
+2. Establish why the question is interesting. State the question in written form as well as with a statistical "null" and "alternative" hypothesis.
+
+3. Clearly answer your question using statistics. Be sure to compute a p-value and provide supporting numerical and graphical summaries. Also be sure to establish whether or not the requirements of your t test have been satisfied. (See the Math 325 Notebook for details.)
+
+-->
+
+## Background
+
+Mary C. Meyer collected these [data](https://webmailbyui-my.sharepoint.com/:x:/g/personal/harmkenn_byui_edu/Ee2RRg5H3RZIl1tfeK9QUh8BgbujF0r_jXZipv8JfO6OKA?e=5I4L5K) from a fourth grade classroom in Ann Arbor, MI, in October 1997. They were a convenience sample of the kids who were in the fourth grade.
+
+**Question:** Is the average foot length of fourth graders born in 1987 larger than the average foot length of the younger fourth graders born in 1988?
+
+**Hypotheses**
+$$
+{ H }_{ 0 }:{ \mu  }_{87Length}={ \mu  }_{88Length}\\ { H }_{ a }:{ \mu  }_{87Length}>{ \mu  }_{88Length}
+$$
+
+
+## Analysis
+
+### Compare the Lengths of Feet for fourth Graders born in '87 and '88  
+In order to understand the relationship between the length of feet of the older fourth graders and the younger fourth graders I have provided the summary statistics and boxplots for each group.
+```{r}
+KidsFeet$birthyear<-as.factor(KidsFeet$birthyear)
+pander::pander(favstats(length~birthyear, data = KidsFeet))
+ggplot(data = KidsFeet, aes(x = birthyear, y = length)) + geom_boxplot()  + aes(colour = birthyear) + labs(title = "Foot Length of Sample fourth Graders\nby Birth Year") + coord_flip() +labs(y="Foot Length",x="Birth Year")+ theme(plot.title = element_text(hjust = 0.5))
+```
+
+Notice that the mean and median foot length of the fourth graders born in '87 are larger than the mean an median foot length of the fourth graders born in '88.
+
+
+
+### Assumptions for Independent 2-sample t-Test
+1. We **cannot** assume that these sampled fourth graders are a random representative sample because they were collected as a convenience sample.
+2. According to the QQ-Plots these samples appear to be normal enough.
+```{r}
+
+Y87<-subset(KidsFeet, birthyear %in% 87)
+par(mfrow=c(1,2))
+qqPlot(Y87$length, xlab = "Ranked Z Scores", ylab = "Foot Length (cm)", main = "'87 Kids")
+
+
+Y88<-subset(KidsFeet, birthyear %in% 88)
+qqPlot(Y88$length, xlab = "Ranked Z Scores", ylab = "Foot Length (cm)", main = "'88 Kids")
+```
+
+
+
+
+
+
+
+### Independent 2 sample t-Test
+Using a **level of significance: ** $\alpha = .05$
+```{r}
+
+
+ttp<-t.test(Y87$length,Y88$length, mu = 0, alternative = "greater", conf.level = 0.90)$p.value
+tts<-t.test(Y87$length,Y88$length, mu = 0, alternative = "greater", conf.level = 0.90)$statistic
+ttdf<-t.test(Y87$length,Y88$length, mu = 0, alternative = "greater", conf.level = 0.90)$parameter
+
+U<-abs(tts)+1
+L<-U*(-1)
+
+tcv<-qt(.95, ttdf)
+
+# Create data for the area to shade
+TX<-seq(tts,U,.01)
+cord.x <- c(tts,TX,U) 
+cord.y <- c(0,dt(TX,ttdf),0) 
+
+TCX<-seq(tcv,U,.01)
+cord.x1 <- c(tcv,TCX,U) 
+cord.y1 <- c(0,dt(TCX,ttdf),0) 
+
+# Make a curve
+curve(dt(x,ttdf), xlim=c(L,U), main="t-Test for the Length of Feet \nold fourth Graders vs young fourth Graders", xlab = "") 
+
+# Add the shaded area.
+
+polygon(cord.x1,cord.y1,col='#0000FF64')
+#transred<-rgb(255,0,0,max=255,alpha=100,names="transred")
+polygon(cord.x,cord.y,col='#FF000064')
+abline(v=tts, lty=5, col="red", lwd=2)
+abline(v=tcv, lty=5, col="blue", lwd=2)
+text(tcv,.39,"Critical Value", col="blue")
+
+text(tts,.37,"Test Statistic", col="red")
+text(tts+.4,.01,"p-value", col="red")
+
+pander(t.test(Y87$length,Y88$length, mu = 0, alternative = "greater", conf.level = 0.95))
+# pander(t.test(length~birthyear, data = KidsFeet, mu = 0, alternative = "greater", conf.level = 0.95))
+
+
+```
+
+## Interpretation
+
+* The Test Statistic **(`r tts`)** is greater than the Critical Value **(`r tcv`)**
+* The p-value **(`r ttp`)** is smaller than the Level of Significance **$\alpha = .05$**
+
+Therefore, there is **sufficient evidence** to conclude that fourth Graders born in '87 have a larger mean foot size than fourth Graders born in '88.
+

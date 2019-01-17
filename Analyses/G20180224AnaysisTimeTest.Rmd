@@ -1,0 +1,104 @@
+---
+title: "Testing Times"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+```
+
+
+## {.tabset .tabset-fade}
+
+
+
+### Overview
+
+**Context**
+
+In the Fall of 2017 semester at BYUI, 150 students took an exam in Math 221A in the testing center. The exam was open for four days. The students chose when to take the exam when it was convienent for their schedule.
+
+**The Study**
+
+Was there a relationship between when the students chose to take the test and the score they achieved on the test?
+
+
+### To Critiquers
+
+Dear Critiquer,
+
+You may notice that the assumptions to perform linear regression are not met. However, you could judge me on other things:
+
+* Getting the dataset .csv file into R
+* Formatting the dataset
+* Analyzing the test
+* My interpretation
+
+
+### Analysis
+
+The scatterplot of the tests shows that there is a negative trend in the exams; the longer the students wait to take the exam the lower the expected score on that exam.
+
+```{r}
+MTATests <- read.csv("../Data/MapleTAdata4.csv",header=TRUE, stringsAsFactors = FALSE)
+MTATests$When <- as.POSIXct(MTATests$When)
+plot(Percent ~ When, data=MTATests, xlab="When Exam was Taken", ylab="Score on the Exam", col="blue", pch=19, main="Student Exam Scores\nBased on when they took the Exam")
+MTA.lm <- lm(Percent ~ When, data=MTATests)
+abline(MTA.lm)
+
+```
+
+#### Inference
+
+We run a linear regression analysis to see if there is a relationship between when a student takes the exam and their score on the exam. $\beta_1$ is the slope of the regression line.
+
+#### Hypotheses
+
+$$
+{ H }_{ 0 }: \beta_1 =0\\ { H }_{ a }: \beta_1 \neq0
+$$
+
+#### Assumptions
+
+1. **Linear Relation**: the regression relation between $Y$ and $X$ is linear.
+    
+2. **Normal Errors**: the error terms are ** almost ** normally distributed with a mean of zero. The distribution of error terms is a little skewed.
+
+3. **Constant Variance**: the variance of the error terms is constant over all $X$ values. The error terms seem to decrease with increasing values of $X$.
+
+4. **Fixed X**: the $X$ values can be considered fixed and measured without error.
+
+5. **Independent Errors**: the error terms are independent.
+
+```{r}
+plot(MTA.lm, which=1:1)
+qqPlot(MTA.lm)
+```
+
+#### The Inference
+
+```{r}
+pander(summary(MTA.lm))
+```
+
+The inference tells us that there is likely and negative relationship between when a student takes a test and what score they get on the test.
+
+
+
+### Interpretation
+
+Even though not all of the assumptions were met to perform this inference, there is a clear negative ralationship between when a student takes an exam and their performance on that exam. 
+
+There is an influatial point in the data where a student took the test late and scored quite low. This data point contributes to the strength of the negative relationship. 
+
+If this inference is to be believed, we would expect that for every day in delay, the average score would decrease more than four percent.
+

@@ -1,0 +1,194 @@
+---
+title: "Pulse of the Nation Multiple Logistic Regression"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r Libraries, include=FALSE}
+library(mosaic)
+library(DT) 
+#library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+library(ResourceSelection)
+#library(tidyverse)
+```
+
+```{r Datafix}
+POTN<-read.csv("../Data/POTN201801.csv", header=TRUE, stringsAsFactors = FALSE)
+POTN<-POTN[c("Age","Female","MT")]
+```
+
+## {.tabset .tabset-fade}
+
+### Overview
+
+[Pulse of the Nation](https://thepulseofthenation.com/#intro) is a government funded monthly public opinion poll. It is conducted by the organization Fifth Day of Cards Against Humanity Saves America. To conduct their polls in a scientifically rigorous manner, they partnered with Survey Sampling International — a professional research firm — to contact a nationally representative sample of the American public. They interrupted people’s dinners on both their cell phones and landlines to examine the data for statistically significant correlations. 
+
+The [Dataset](https://thepulseofthenation.com/downloads/201801-CAH_PulseOfTheNation_Raw.csv) I will use is a subset of the results of the [survey for January 2018](https://thepulseofthenation.com/#poll-5).
+
+### Dataset
+
+For this analysis, I will explore this question:
+
+**Can a person's age and gender predict how they feel about women's ability to multi-task?**
+
+**AGE:** Respondent's Age
+
+**MT:** Do you believe that women are better at multi-tasking than men?
+
+0. No
+1. Yes
+
+**Female:** Respondent's Gender
+
+0. Male
+1. Female
+
+Here is the data I will be using:
+
+```{r Showdata}
+datatable(POTN, extensions = "Responsive",options=list(lengthMenu = c(10,25,68)))
+```
+
+### Logistic Regression
+
+To model the probability that someone thinks that females are better at multi-tasking given their age, we could apply the logistic regression model:
+$$
+  P(Y_i = 1|x_i) = \frac{e^{\beta_0+\beta_1{X_{i1}}+\beta_2{X_{i2}}+\beta_3{X_{i1}X_{i2}}}}{1+e^{\beta_0+\beta_1{X_{i1}}+\beta_2{X_{i2}}+\beta_3{X_{i1}X_{i2}}}} = \pi_i
+$$
+$\quad Y_{i} = \left\{\begin{array}{ll} 1, & \text{if Feelings} = \text{Yes} \\ 0, & \text{if Feelings} = \text{No} \end{array}\right.$
+$\quad X_{i1} = \text{Age}$
+$\quad X_{i2} = \left\{\begin{array}{ll} 1, & \text{if Gender} = \text{Female} \\ 0, & \text{if Gender} = \text{Male} \end{array}\right.$
+
+
+```{r Logreg, warning=FALSE}
+POTN.glm <- glm(MT ~ Age + Female + Age:Female, data=POTN, family=binomial)
+pander(summary(POTN.glm))
+b<-POTN.glm$coefficients
+pvLR<-coef(summary(POTN.glm))[2,4]
+```
+
+Because we have accounted for `age`, the hypotheses for this study will concern the coefficients of the various responses for `gender`.
+$$
+  H_0: \beta_1 = 0 \\
+  H_a: \beta_1 \neq 0
+$$
+
+$$
+  H_0: \beta_3 = 0 \\
+  H_a: \beta_3 \neq 0
+$$
+
+
+```{r Plot}
+plot(MT ~ Age, data=POTN, pch=16, cex=0.5, xlim=c(18,110), xlab= "Age", ylab="Feel Females are Better at Multi-tasking", main = "Proability that Someone Feels that Females\n are Better at Multi-tasking than Men\n Based on their Age and Gender.")
+
+curve(exp(b[1] + b[2]*x)/(1+exp(b[1] + b[2]*x)),from=0, to=188,  add=TRUE, col='Blue')
+
+curve(exp(b[1]+b[3] + (b[2]+b[4])*x)/(1+exp(b[1]+b[3] + (b[2]+b[4])*x)),from=0, to=188,  add=TRUE, col='red')
+
+legend("right", legend=c("Male", "Female"), col=c("Blue","red"), lty=1)
+```
+
+
+### Appropriateness
+
+Is Logistical Regression an appropriate model for taking age to predict how people feel about female multi-tasking abilities?
+
+I want to test two things:
+
+1. Does the model show that there is a Significant relationship between age and feelings?
+2. Is Logistic Regression a Good Fit?
+
+##### Significant
+
+From the Logistic Regression, a p-value of **`r pvLR`** on slope shows that there is a signifcant relationship between age and feelings.
+
+##### Goodness of Fit
+
+We have two goodness of fit tests:
+
+1. Hosmer and Lemeshow goodness of fit (GOF) test for data that has very few repeated x values.
+2. Chi-Square Goodness of Fit Test of Deviance for data that has many repeated x values.
+
+Both tests use the same null and alternative hypotheses: 
+
+$$
+H_0:\text{Logistical Model is Appropriate}\\H_a:\text{Logistical Model is Not Appropriate}
+$$
+
+For the data in this analysis, there are many repeated age values, so the Chi-Square Goodness of Fit Test of Deviance is the more appropriate test.
+
+```{r}
+#pander(table(POTN$MT, POTN$Age), caption = "Age and feelings about female multi-tasking")
+```
+
+I will do both tests anyway.
+
+#### Hosmer and Lemeshow Goodness of Fit (GOF) Test
+
+```{r GOF, warning=FALSE}
+
+pander(hoslem.test(POTN.glm$y, POTN.glm$fitted))
+hlpv<-hoslem.test(POTN.glm$y, POTN.glm$fitted)$p.value
+
+```
+
+I will use the Hosmer-Lemeshow test to test the goodness of fit of this logistic regression model. The null assumes the logistic regression is a good fit. With **p=`r hlpv`**, there is insufficient evidence to reject the null; so, we will conclude a good logistic fit on these data.
+
+```{r}
+a<-summary(POTN.glm)
+dfr<-POTN.glm$df.residual
+
+fit<-POTN.glm$fitted
+
+r<-(POTN$MT-fit)/(sqrt(fit*(1-fit)))
+srs<-sum(r^2)
+
+pcs<-pchisq(srs, dfr, lower.tail = FALSE)
+
+```
+
+#### Chi-Square Goodness of Fit Test of Deviance
+
+I will use the Chi-Square Goodness of Fit Test of Deviance to test the goodness of fit of this logistic regression model. The null assumes the logistic regression is a good fit. With **p=`r pcs`**, there is insufficient evidence to reject the null; so, we will conclude a good logistic fit on these data.
+
+### Interpretation
+
+```{r Plot2}
+
+plot(MT ~ Age, data=POTN, pch=16, cex=0.5, xlim=c(18,110), xlab= "Age", ylab="Feel Females are Better at Multi-tasking", main = "Proability that Someone Feels that Females\n are Better at Multi-tasking than Men\n Based on their Age and Gender.")
+
+curve(exp(b[1] + b[2]*x)/(1+exp(b[1] + b[2]*x)),from=0, to=188,  add=TRUE, col='Blue')
+
+curve(exp(b[1]+b[3] + (b[2]+b[4])*x)/(1+exp(b[1]+b[3] + (b[2]+b[4])*x)),from=0, to=188,  add=TRUE, col='red')
+
+legend("right", legend=c("Male", "Female"), col=c("Blue","red"), lty=1)
+
+pander(summary(POTN.glm))
+```
+
+
+
+##### Conclusion
+
+It appears that age is an appropriate predictor of whether a person feels that females are better at multi-tasking.
+
+The trouble with the interpretation of $e^{b_0}$ and $e^{b_0 + b_2}$ is that it represents the feelings of newborns about females' ability to multi-task. I think their opinions are biased. 
+
+The value of $e^{b_1} = e^{`r b[2]`} \approx `r exp(b[2])`$ shows that the odds of males favoring females, given their age, increases by a factor `r exp(b[2])-1` for every 1 year increase in Age. 
+
+The value of $e^{b_1+b_3} = e^{`r b[2]+b[4]`} \approx `r exp(b[2]+b[4])`$ shows that the odds of females favoring females, given their age, increases by a factor `r exp(b[2]+b[4])-1` for every 1 year increase in Age. 
+
+
+
+
+
+
+
+
