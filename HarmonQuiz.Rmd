@@ -1,0 +1,657 @@
+---
+title: "Harmon Quiz Questions"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    #toc: true
+    #toc_float: true
+---
+
+```{r, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+library(ResourceSelection)
+```
+
+
+
+# Speed Quizzes {.tabset .tabset-fade}
+
+## Movie Dataframe 
+
+```{r}
+mr4<-read.csv("./Data/mr4.csv", header=TRUE, stringsAsFactors = FALSE)
+mr4[9:13]<-mr4[9:13]/1000000
+pander(head(mr4))
+```
+## Week 1 
+
+### Q1 
+
+Use the mr4 dataset in R to compute the average score of and R-rated movie
+
+```{r}
+mean(score~rating, data = subset(mr4, rating == "R"))
+```
+
+### Q2 
+
+Use the mr4 dataset in R, to create an appropriate graphic of R-Rated movie budgets.
+
+```{r}
+favstats(budget~rating, data = mr4)
+
+boxplot(budget~rating, data = mr4)
+```
+
+
+
+### Q3 
+Use the mr4 dataset in R to create an appropriate graphic that shows the growth in budget in movies over time. 
+```{r}
+plot(budget~year, data=mr4)
+
+```
+
+
+
+## Week 2
+
+### Q1 
+
+Use the mr4 dataset in R to compute the mean IMDB score of the different MPAA ratings.
+```{r}
+pander(mean(score~rating, data = mr4), caption = "Mean IMDB Score by Rating")
+```
+
+
+
+### Q2 
+
+Use the mr4 dataset in R to make a graph that allows you to see how the budget is changes by year.
+
+```{r}
+plot(budget~year, data = mr4)
+```
+
+
+
+### Q3 
+Run the following codes in R. Then select the statement that most appropriately interprets the resulting graph.
+```{r}
+palette(c("blue","red","green","purple"))
+
+plot(budget ~ year, data=mr4, col=as.factor(rating), pch=16, xlab="Year", ylab="Budget in Millions", main="Movies 1986 to 2016")
+
+legend("topleft", pch=16, legend=c("G","PG","PG-13","R"), title="MPAA Rating", bty='n', col=palette())
+```
+
+## Week 3
+
+### Q1 
+
+Use appropriate R commands and the mr4 dataset to determine which movie rating occurred 55 times in 1990.
+
+```{r}
+pander(table(mr4$rating, mr4$year == 1990))
+```
+
+
+
+### Q2 
+Use the mr4 dataset in RStudio to test the following hypotheses.
+$$
+{ H }_{ 0 }:{ \mu  }_{\text{G Profit}}={ \mu  }_{\text{R Profit}}\\ { H }_{ a }:{ \mu  }_{\text{G Profit}}\neq{ \mu  }_{\text{R Profit}}
+$$
+```{r}
+pander(t.test(Profit2017~rating, data = subset(mr4, rating %in% c("G","R")), mu = 0, alternative = "two.sided", conf.level = 0.95))
+```
+
+### Q3 
+What two things are required to compute a p-value?
+
+1. A test statistic 
+2. sampling distribution of the test statistic
+
+## Week 4
+
+### Q1 
+
+Use the mr4 dataset in R to find the number of R-rated movies from the UK in the dataset.
+```{r}
+pander(table(mr4$rating, mr4$country %in% "UK"))
+```
+
+### Q2 
+Create an appropriate graphic using the mr4 dataset in R that would allow you to compare the distribution of Profit for Movies in each Rating.
+```{r}
+boxplot(Profit2017 ~ rating, data=mr4, ylab="Profit in millions", xlab="Rating", main="Profit by Rating")
+```
+
+
+
+### Q3 
+Perform an appropriate Wilcoxon Test of the following hypotheses using the mr4 dataset in R.
+$$
+{ H }_{ 0 }:\quad { { Median }_{ G Profit }=Median }_{ R Profit }\\ { H }_{ a }:\quad { { Median }_{ G Profit }\neq Median }_{ R Profit }
+$$
+```{r}
+pander(wilcox.test(Profit2017 ~ rating, data=subset(mr4, rating %in% c("G","R"))))
+```
+
+## Week 5
+
+### Q3
+
+In the mr4 dataset, what is the average length of G-Rated Movies released in 1990?
+
+```{r}
+
+pander(mean(runtime ~ rating, data=subset(mr4, year == "1990"), groups=year))
+
+```
+
+## Week 6
+
+```{r}
+pander(kruskal.test(salary~ rank, data=Salaries))
+kruskal.test(salary~ rank, data=Salaries)
+boxplot(salary~ rank, data=Salaries)
+median(salary~ rank, data=Salaries)
+```
+
+## Week 7
+
+```{r}
+plot(Height ~ Volume, data=trees)
+trees.lm <- lm(Height ~ Volume, data=trees)
+abline(trees.lm)
+summary(trees.lm)
+trees.lm$coefficients
+
+par(mfrow=c(1,2))
+plot(trees.lm, which=1:2)
+par(mfrow = c(1,1)) #This resets your plotting window for future plots.
+```
+
+```{r}
+
+plot(waiting ~ eruptions, data=faithful)
+of.lm <- lm(waiting ~ eruptions, data=faithful)
+abline(of.lm)
+pander(summary(of.lm))
+
+par(mfrow=c(1,2))
+plot(of.lm, which=1:2)
+par(mfrow = c(1,1))
+qqPlot(of.lm)
+
+```
+
+```{r}
+
+plot(length ~ width, data=KidsFeet)
+of.lm <- lm(length ~ width, data=KidsFeet)
+abline(of.lm)
+pander(summary(of.lm))
+
+par(mfrow=c(1,2))
+plot(of.lm, which=1:2)
+par(mfrow = c(1,1))
+qqPlot(of.lm)
+
+```
+
+## Week 8
+```{r}
+#boxplot(length~sex,data=mtcars)
+lmcars <- lm(mpg ~ qsec + am + qsec:am, data=mtcars)
+lmcars
+summary(lmcars)
+pander(lmcars)
+
+par(mfrow=c(1,2))
+plot(lmcars, which=1:2)
+par(mfrow = c(1,1))
+
+lmcars$coefficients
+b<-lmcars$coefficients
+palette(c("blue","red"))
+plot(mpg ~ qsec,data=mtcars, col=as.factor(mtcars$am),pch=16)
+abline(b[1], b[2], col="blue")
+abline(b[1]+ b[3],b[2]+ b[4], col="red")
+legend("topright",c("Automatic","Manual"), lty=1, lwd=5, col=palette(), cex=0.7, title="Transmission")
+```
+
+$$\underbrace{Y_i}_{mpg}=\beta_0+\beta_1\underbrace{X_{1i}}_{qsec}+\beta_2\underbrace{X_{2i}}_{am}+\beta_3\underbrace{X_{1i}X_{2i}}_{interaction}+\epsilon_i $$
+
+$\hat{ Y }_{ i }=$ `r b[1]` + `r b[2]` ${ X }_{ 1i }+$ `r b[3]` ${ X }_{ 2i }+$ `r b[4]` ${ X }_{ 1i }{ X }_{ 2i }$
+
+##week 10
+```{r}
+plot(am~mpg,data=mtcars, pch=16)
+MTC.glm <- glm(am>0 ~ mpg, data=mtcars, family=binomial)
+summary(MTC.glm)
+
+b<-MTC.glm$coefficients
+
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), from=8, to=40, add=TRUE)
+pc<-predict(MTC.glm, data.frame(mpg=31), type='response')
+
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), from=-1, to=40, add=TRUE, col="red")
+
+```
+The probability that a car has an manual transmission given that it gets 31 mpg is `r pc`
+
+$$
+P(Y_i=1|x_i)={e^{\beta_0+\beta_1x_i}}\frac{a}
+$$
+The odds that a car has a manual transmission increases 36% for every mpg increase. $e^{\beta_1}$
+
+### Challenger
+
+```{r}
+library(alr3)
+
+```
+$$
+  P(Y_i = 1|x_i) = \frac{e^{\beta_0+\beta_1 x_i}}{1+e^{\beta_0 + \beta_1 x_i}} = \pi_i
+$$
+```{r}
+library(alr3)
+chall.glm <- glm(Fail>0 ~ Temp, data=challeng, family=binomial)
+summary(chall.glm)
+b<-chall.glm$coefficients
+plot( Fail>0 ~ Temp, data=challeng, main="", ylab='Probability of O-rings Failing', pch=16)
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)
+```
+
+
+```{r, warning=FALSE, message=FALSE}
+library(ResourceSelection)
+```
+```{r}
+hoslem.test(chall.glm$y, chall.glm$fitted, g=6)
+# Note: doesn't give a p-value for g >= 7, default is g=10.
+# Larger g is usually better than smaller g.
+```
+
+```{r}
+infert.glm <- glm( (spontaneous > 0) ~ age, data=infert, family=binomial)
+b<-summary(infert.glm)$coefficients
+plot( (spontaneous > 0) ~ age, data=infert)
+table(infert$age)
+```
+
+```{r}
+
+pchisq(334.01, 246, lower.tail=FALSE)
+
+```
+
+
+```{r}
+HG<-Galton
+HG$bs<-as.integer(Galton$sex)-1
+HG$bs<-as.integer(HG$bs)
+h.glm <- glm(bs ~ height, data=HG, family=binomial)
+summary(h.glm)
+b<-h.glm$coefficients
+plot(bs~ height, data=HG)
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)
+pm<-predict(h.glm, data.frame(height=65), type='response')
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(ResourceSelection)
+
+hoslem.test(h.glm$y, h.glm$fitted, g=10)
+# Note: doesn't give a p-value for g >= 7, default is g=10.
+# Larger g is usually better than smaller g.
+```
+
+## Week 11
+
+```{r}
+library(robustbase)
+FSP.glm <- glm(participation ~ income + tenancy , data=foodstamp, family=binomial)
+pander(summary(FSP.glm))
+b<-FSP.glm$coefficients
+pvLR<-coef(summary(FSP.glm))[2,4]
+pander(hoslem.test(FSP.glm$y, FSP.glm$fitted))
+hlpv<-hoslem.test(FSP.glm$y, FSP.glm$fitted)$p.value
+plot(participation ~ income, data=foodstamp, pch=16, cex=0.5, xlim=c(0,5000), xlab= "income", ylab="Food Stamp Program")
+
+curve(exp(b[1] + b[2]*x)/(1+exp(b[1] + b[2]*x)),from=0, to=5000,  add=TRUE, col='Blue')
+
+curve(exp(b[1]+b[3] + (b[2])*x)/(1+exp(b[1]+b[3] + (b[2])*x)),from=0, to=5000,  add=TRUE, col='red')
+
+legend("right", legend=c("Not Own Home", "Own Home"), col=c("Blue","red"), lty=1)
+
+table(foodstamp$income, foodstamp$tenancy)
+
+
+pander(hoslem.test(FSP.glm$y, FSP.glm$fitted))
+
+summary(FSP.glm)
+
+pchisq(131.90, 149, lower.tail = FALSE)
+pchisq(106.90, 147, lower.tail = FALSE)
+pchisq(131.90-106.65, 2, lower.tail = FALSE)
+```
+
+The odds of participating in food stamps if you own a home is `r exp(b[3])` of the odds of participating in food stamps if you do not own a home. This makes it `r 1/exp(b[3])` times more likely to participate in food stamps if you do not own a home even if you have the same income.
+
+## Week 12
+
+```{r}
+apply(Titanic, c(4), sum)
+```
+
+Never look at the gospel throught the lens of your discipline; always view your discipline through the lens of the gospel.
+
+
+
+```{r}
+glasses <- cbind( Males = c(Glasses = 5, Contacts = 12, None = 18), Females = c(Glasses = 4, Contacts = 14, None = 22))
+barplot(glasses, beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft", bty="n"))
+chis.glasses <- chisq.test(glasses)
+chis.glasses$expected 
+chis.glasses
+chis.glasses$residuals
+barplot(chis.glasses$residuals, beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft", bty="n"))
+```
+
+```{r}
+education <- cbind( `United States` = c(Engineering = 61941, `Natural Science` = 111158, `Social Science` = 182166), `Western Europe` = c(Engineering = 158931, `Natural Science` = 140126, `Social Science` = 116353), Asia = c(280772, 242879, 236018))
+barplot(education, beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft", bty="n"))
+chisq.ed <- chisq.test(education)
+chisq.ed$expected 
+chisq.ed
+chisq.ed$residuals
+barplot(chis.glasses$residuals, beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft", bty="n"))
+```
+
+```{r}
+tmp <- aov(count ~ spray, data=InsectSprays)
+par(mfrow=c(1,2))
+plot(tmp, which=1:2, pch=16)
+summary(tmp)
+```
+
+```{r}
+education <- cbind( `United States` = c(Engineering = 61941, `Natural Science` = 111158, `Social Science` = 182166), `Western Europe` = c(Engineering = 158931, `Natural Science` = 140126, `Social Science` = 116353), Asia = c(280772, 242879, 236018))
+barplot(education, beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft", bty="n"))
+chisq.ed <- chisq.test(education)
+chisq.ed$expected 
+chisq.ed
+chisq.ed$residuals
+barplot(chis.glasses$residuals, beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft", bty="n"))
+```
+
+## Week 13
+```{r}
+set.seed(121)
+sample1 <- rnorm(30, 185, 8)
+sample2 <- sample1 - rnorm(30, 0, 3.5)
+theData <- data.frame(values = c(sample1,sample2), group = rep(c(1,2), each=30), id = rep(c(1:30),times=2))
+#View(theData)
+with(theData, hist(values[group==1] - values[group==2]))
+myTest <-  t.test(values~group,data=theData,paired=TRUE, mu=0) 
+observedTestStat <- myTest$statistic
+
+ 
+
+N <- 2000      
+permutedTestStats <-  rep(NA, N)
+for  (i in 1:N ) {
+   permutedData <- sample(x=c(1,-1),size = 30, replace = TRUE)
+   permutedTest <- with(theData, t.test(permutedData*(values[group==1]-values[group==2]),mu=0))
+   permutedTestStats[i]  <-  permutedTest$statistic
+}
+hist(permutedTestStats)
+abline(v=observedTestStat)
+sum(permutedTestStats >= observedTestStat)/N
+sum(permutedTestStats <= observedTestStat)/N
+```
+
+```{r}
+set.seed(1140411)
+sample1 <- rnorm(30, 69, 2.5)
+sample2 <- rnorm(30, 69, 2.5)
+theData <- data.frame(values = c(sample1,sample2), group = rep(c(1,2), each=30))
+boxplot(values ~ group, data = theData)
+```
+
+```{r}
+myTest <- t.test(values~group,data = theData, mu=0)
+observedTestStat <- myTest$statistic
+
+N <- 2000      
+permutedTestStats <-  rep(NA, N)
+for  (i in 1:N ) {
+   permutedData <- sample(x=theData$group)
+   permutedTest <- t.test(values~permutedData, data = theData, mu=0)
+   permutedTestStats[i]  <-  permutedTest$statistic
+}
+hist(permutedTestStats)
+abline(v=observedTestStat)
+sum(permutedTestStats >= observedTestStat)/N
+sum(permutedTestStats <= observedTestStat)/N
+```
+
+```{r}
+table(SaratogaHouses$fuel)
+pander(kruskal.test(price~ fuel, data=SaratogaHouses))
+kruskal.test(price~ fuel, data=SaratogaHouses)
+boxplot(price~ fuel, data=SaratogaHouses)
+median(price~ fuel, data=SaratogaHouses)
+#stripchart(price ~ fuel, data=SaratogaHouses)
+```
+
+## Final
+
+### Q1
+
+```{r Q1}
+lmll<-lm(height ~ age, data=Loblolly)
+plot(height ~ age, data=Loblolly)
+xyplot(height ~ age, data=Loblolly, type=c("p","a"), main="Significance of Treatment", col='blue') 
+par(mfrow=c(1,2))
+plot(lmcars, which=1:2)
+par(mfrow = c(1,1))
+```
+
+### Q2
+
+```{r}
+str(Highway1)
+plot(rate ~ slim, data=Highway1, pch=16, xlab="", ylab="", main="")
+plot(rate ~ slim, data=Highway1, pch=16, xlab="Speed Limit", ylab="Accident Rate", main="1973 Minnesota Highway Safety Study")
+```
+
+### Q3
+
+```{r}
+hist(islands, breaks=50 ,xlab="Area in Thousands of Square Miles", main="Areas of the World's Major Landmasses")
+	
+summary(islands)
+```
+
+### Q4
+
+```{r}
+lm(speed~dist, data=cars)
+Q4 <- lm(speed~dist, data=cars)
+predict(Q4, data.frame(dist=130), type='response')
+```
+
+### Q9
+
+```{r Q9}
+
+lane2<-subset(Highway1, lane %in% 2)
+lane4<-subset(Highway1, lane %in% 4)
+par(mfrow=c(1,2))
+qqPlot(lane2$rate, xlab = " ", ylab = " ", main = " ")
+
+qqPlot(lane4$rate, xlab = " ", ylab = " ", main = " ")
+
+
+```
+
+### Q10
+
+```{r Q10}
+lmiris <- lm(Sepal.Length ~ Sepal.Width + Species, data=iris)
+summary(lmiris)
+
+b <- lmiris$coefficients
+
+b[1]+b[3]
+
+```
+
+### Q11
+
+
+```{r}
+table(KidsFeet$length)
+
+mean(KidsFeet$width~KidsFeet$name)
+```
+
+### Q12
+
+```{r Q12}
+table(KidsFeet$name)
+mean(KidsFeet$width~KidsFeet$name)
+```
+
+### Q13
+
+```{r Q13}
+aaa<-subset(starwars, species %in% c("Wookiee","Gungan","Kaminoan"))
+
+mean(aaa$height~aaa$species)
+pander(kruskal.test(height ~ as.factor(species), data=aaa))
+
+```
+
+### Q15
+
+```{r Q15}
+plot(speed > 15 ~ dist, data=cars, ylab="Probability Speed > 15 mph", xlab="Stopping Distance (feet)")
+KP.glm <- glm(speed > 15 ~ dist, data=cars, family=binomial)
+pander(summary(KP.glm))
+b<-KP.glm$coefficients
+pvLR<-coef(summary(KP.glm))[2,4]
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)
+predict(KP.glm, data.frame(dist=70), type='response')
+
+```
+
+### Q16
+
+```{r Q16}
+
+xyplot(length ~ sex, data=KidsFeet, group=domhand, type=c("p","a"), auto.key=TRUE)
+
+DCAOV<-aov(length ~ sex, data=KidsFeet)
+DCAOV<-aov(length ~ sex + domhand + sex:domhand, data = KidsFeet)
+pander(DCAOV, caption = "ANOVA results")
+
+```
+
+### Q18
+
+```{r Q18}
+
+pander(kruskal.test(height ~ voice.part, data=singer))
+ 
+boxplot(height ~ voice.part, data=singer, ylab=" ", xlab=" ", 
+        col=c("gray","orangered"), main="",
+        horizontal=TRUE)
+```
+
+### Q19
+
+```{r Q19}
+exp(.251)
+```
+
+### Q21
+
+```{r}
+t.test(height~sex, data=Galton)
+ttstat <- t.test(height~sex, data=Galton)$statistic
+N <- 4321
+permutedTestStats <- rep(NA, N)
+for (i in 1:N){
+  permutedData <- sample(Galton$height)
+  permutedTest <- t.test(permutedData ~sex, data=Galton)
+  permutedTestStats[i] <- permutedTest$statistic
+}
+
+# The histogram of this distribution gives an interesting insight into the results
+hist(permutedTestStats, xlim=c(-40,20),col = "skyblue",breaks=50, main="Permutation results", 
+     xlab ="F",freq=FALSE)
+
+abline(v = ttstat, lty=5 ,col = "red", lwd = 2)
+
+sum(permutedTestStats <= ttstat)/N
+
+```
+
+### Q22
+
+```{r Q22}
+pander(t.test(len ~ supp, data = ToothGrowth), mu = 0, alternative = "two.sided", conf.level = 0.95)
+```
+
+### Q23
+
+```{r Q23}
+aaaaa<-Highway1
+aaaaa$lane<-as.factor(aaaaa$lane)
+
+pander(wilcox.test(rate ~ lane, data=subset(aaaaa, lane %in% c("2","4"))))
+
+```
+
+### Q24
+
+```{r Q24}
+mean(rate ~ htype, data=subset(Highway1, htype %in% c("MC","FAI","PA","MA")))
+```
+
+### Q25
+
+```{r Q25}
+barplot(rbind(`Male`=c(Marvel=22, DC=28), `Female`=c(Marvel=43, DC=6)), col=c("gray44","gray84"), beside=TRUE, legend.text=TRUE)
+
+pref <- matrix(c(22,28,43,6),ncol=2,byrow=TRUE)
+colnames(pref) <- c("Male","Female")
+rownames(pref) <- c("Marvel","DC")
+pref <- as.table(pref)
+pref
+
+pander(pref)
+
+chipref <- chisq.test(pref)
+pander(chipref)
+```
+
+## Real Final
+
+```{r}
+str(KidsFeet)
+str(RailTrail)
+```
+

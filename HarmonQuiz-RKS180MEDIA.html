@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Harmon Quiz Questions</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Ken Harmon's Math 325 Notebook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Table of Contents</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Describing Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GraphicalSummaries.html">Graphical Summaries</a>
+    </li>
+    <li>
+      <a href="NumericalSummaries.html">Numerical Summaries</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Making Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="MakingInference.html">Making Inference</a>
+    </li>
+    <li>
+      <a href="tTests.html">t Tests</a>
+    </li>
+    <li>
+      <a href="WilcoxonTests.html">Wilcoxon Tests</a>
+    </li>
+    <li>
+      <a href="ANOVA.html">ANOVA</a>
+    </li>
+    <li>
+      <a href="Kruskal.html">Kruskal-Wallis</a>
+    </li>
+    <li>
+      <a href="LinearRegression.html">Linear Regression</a>
+    </li>
+    <li>
+      <a href="LogisticRegression.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="ChiSquaredTests.html">Chi-Squared</a>
+    </li>
+    <li>
+      <a href="PermutationTests.html">Permutation Test</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Help
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RCommands.html">R Commands</a>
+    </li>
+    <li>
+      <a href="RMarkdownHints.html">R Markdown Hints</a>
+    </li>
+    <li>
+      <a href="HarmonCode.html">Harmon Code</a>
+    </li>
+    <li>
+      <a href="HarmonQuiz.html">Harmon Quiz</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Analyses/AnalysisRubric.html">Analysis Rubric</a>
+    </li>
+    <li>
+      <a href="./Analyses/StudentHousing.html">Good Example Analysis</a>
+    </li>
+    <li>
+      <a href="./Analyses/StudentHousingPOOR.html">Poor Example Analysis</a>
+    </li>
+    <li>
+      <a href="./Analyses/StudentHousingII.html">My First Analysis</a>
+    </li>
+    <li>
+      <a href="./Analyses/A20180113ReAnalysisFemaleBYUIHousing.html">A Female Housing (Data &amp; Plots)</a>
+    </li>
+    <li>
+      <a href="./Analyses/B20180120ReAnalysisMovie.html">B Movies (Summary &amp; Plots)</a>
+    </li>
+    <li>
+      <a href="./Analyses/C20180127KidsFeetAnalysis.html">C Kids Feet (2 sample t-Test)</a>
+    </li>
+    <li>
+      <a href="./Analyses/D20180208ReAnalysisRecallingWords.html">D Recalling Words (Wilcoxon)</a>
+    </li>
+    <li>
+      <a href="./Analyses/E20180210ReAnalysisDayCare.html">E Daycare (2-Way ANOVA)</a>
+    </li>
+    <li>
+      <a href="./Analyses/F20180217ReAnaysisChocolate.html">F Chocolate (Kruskal)</a>
+    </li>
+    <li>
+      <a href="./Analyses/G20180224ReAnaysisTimeTest.html">G Time Test (Linear Regression)</a>
+    </li>
+    <li>
+      <a href="./Analyses/H20180303ReAnaysisCadillac.html">H Cadillac (Multiple Linear Regression)</a>
+    </li>
+    <li>
+      <a href="./Analyses/I20180310AnalysisNCAAHistory.html">I NCAA History (Kruskal)</a>
+    </li>
+    <li>
+      <a href="./Analyses/J2018031ReAnalysisKenPom.html">J Ken Pomeroy (Logistic Regression)</a>
+    </li>
+    <li>
+      <a href="./Analyses/K20180324ReAnalysisPotN.html">K Pulse of the Nation (Multiple Logistic Regression)</a>
+    </li>
+    <li>
+      <a href="./Analyses/L20180331AnalysisChiPotN.html">L Pulse of the Nation (Chi-Squared)</a>
+    </li>
+    <li>
+      <a href="./Analyses/M20180407AnalysisCarPricePermutation.html">M Car Price (Permutation)</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Harmon Quiz Questions</h1>
+
+</div>
+
+
+<div id="speed-quizzes" class="section level1 tabset tabset-fade">
+<h1>Speed Quizzes</h1>
+<div id="movie-dataframe" class="section level2">
+<h2>Movie Dataframe</h2>
+<pre class="r"><code>mr4&lt;-read.csv(&quot;./Data/mr4.csv&quot;, header=TRUE, stringsAsFactors = FALSE)
+mr4[9:13]&lt;-mr4[9:13]/1000000
+pander(head(mr4))</code></pre>
+<table style="width:69%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="5%" />
+<col width="9%" />
+<col width="18%" />
+<col width="36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">X</th>
+<th align="center">year</th>
+<th align="center">released</th>
+<th align="center">name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">1986</td>
+<td align="center">1986-08-22</td>
+<td align="center">Stand by Me</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">1986</td>
+<td align="center">1986-06-11</td>
+<td align="center">Ferris Bueller’s Day Off</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">1986</td>
+<td align="center">1986-05-16</td>
+<td align="center">Top Gun</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">1986</td>
+<td align="center">1986-07-18</td>
+<td align="center">Aliens</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">1986</td>
+<td align="center">1986-08-01</td>
+<td align="center">Flight of the Navigator</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">1986</td>
+<td align="center">1987-02-06</td>
+<td align="center">Platoon</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="39%" />
+<col width="12%" />
+<col width="11%" />
+<col width="14%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">company</th>
+<th align="center">country</th>
+<th align="center">rating</th>
+<th align="center">genre</th>
+<th align="center">budget</th>
+<th align="center">gross</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Columbia Pictures Corporation</td>
+<td align="center">USA</td>
+<td align="center">R</td>
+<td align="center">Adventure</td>
+<td align="center">8</td>
+<td align="center">52.29</td>
+</tr>
+<tr class="even">
+<td align="center">Paramount Pictures</td>
+<td align="center">USA</td>
+<td align="center">PG-13</td>
+<td align="center">Comedy</td>
+<td align="center">6</td>
+<td align="center">70.14</td>
+</tr>
+<tr class="odd">
+<td align="center">Paramount Pictures</td>
+<td align="center">USA</td>
+<td align="center">PG</td>
+<td align="center">Action</td>
+<td align="center">15</td>
+<td align="center">179.8</td>
+</tr>
+<tr class="even">
+<td align="center">Twentieth Century Fox Film Corporation</td>
+<td align="center">USA</td>
+<td align="center">R</td>
+<td align="center">Action</td>
+<td align="center">18.5</td>
+<td align="center">85.16</td>
+</tr>
+<tr class="odd">
+<td align="center">Walt Disney Pictures</td>
+<td align="center">USA</td>
+<td align="center">PG</td>
+<td align="center">Adventure</td>
+<td align="center">9</td>
+<td align="center">18.56</td>
+</tr>
+<tr class="even">
+<td align="center">Hemdale</td>
+<td align="center">UK</td>
+<td align="center">R</td>
+<td align="center">Drama</td>
+<td align="center">6</td>
+<td align="center">138.5</td>
+</tr>
+</tbody>
+</table>
+<table style="width:92%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="18%" />
+<col width="16%" />
+<col width="18%" />
+<col width="13%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Budget2017</th>
+<th align="center">Gross2017</th>
+<th align="center">Profit2017</th>
+<th align="center">runtime</th>
+<th align="center">votes</th>
+<th align="center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">17.68</td>
+<td align="center">115.6</td>
+<td align="center">97.88</td>
+<td align="center">89</td>
+<td align="center">299174</td>
+<td align="center">8.1</td>
+</tr>
+<tr class="even">
+<td align="center">13.26</td>
+<td align="center">155</td>
+<td align="center">141.7</td>
+<td align="center">103</td>
+<td align="center">264740</td>
+<td align="center">7.8</td>
+</tr>
+<tr class="odd">
+<td align="center">33.15</td>
+<td align="center">397.4</td>
+<td align="center">364.2</td>
+<td align="center">110</td>
+<td align="center">236909</td>
+<td align="center">6.9</td>
+</tr>
+<tr class="even">
+<td align="center">40.88</td>
+<td align="center">188.2</td>
+<td align="center">147.3</td>
+<td align="center">137</td>
+<td align="center">540152</td>
+<td align="center">8.4</td>
+</tr>
+<tr class="odd">
+<td align="center">19.89</td>
+<td align="center">41.03</td>
+<td align="center">21.14</td>
+<td align="center">90</td>
+<td align="center">36636</td>
+<td align="center">6.9</td>
+</tr>
+<tr class="even">
+<td align="center">13.26</td>
+<td align="center">306.2</td>
+<td align="center">292.9</td>
+<td align="center">120</td>
+<td align="center">317585</td>
+<td align="center">8.1</td>
+</tr>
+</tbody>
+</table>
+<table style="width:72%;">
+<colgroup>
+<col width="23%" />
+<col width="27%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">director</th>
+<th align="center">star</th>
+<th align="center">writer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Rob Reiner</td>
+<td align="center">Wil Wheaton</td>
+<td align="center">Stephen King</td>
+</tr>
+<tr class="even">
+<td align="center">John Hughes</td>
+<td align="center">Matthew Broderick</td>
+<td align="center">John Hughes</td>
+</tr>
+<tr class="odd">
+<td align="center">Tony Scott</td>
+<td align="center">Tom Cruise</td>
+<td align="center">Jim Cash</td>
+</tr>
+<tr class="even">
+<td align="center">James Cameron</td>
+<td align="center">Sigourney Weaver</td>
+<td align="center">James Cameron</td>
+</tr>
+<tr class="odd">
+<td align="center">Randal Kleiser</td>
+<td align="center">Joey Cramer</td>
+<td align="center">Mark H. Baker</td>
+</tr>
+<tr class="even">
+<td align="center">Oliver Stone</td>
+<td align="center">Charlie Sheen</td>
+<td align="center">Oliver Stone</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="week-1" class="section level2">
+<h2>Week 1</h2>
+<div id="q1" class="section level3">
+<h3>Q1</h3>
+<p>Use the mr4 dataset in R to compute the average score of and R-rated movie</p>
+<pre class="r"><code>mean(score~rating, data = subset(mr4, rating == &quot;R&quot;))</code></pre>
+<pre><code>##        R 
+## 6.453213</code></pre>
+</div>
+<div id="q2" class="section level3">
+<h3>Q2</h3>
+<p>Use the mr4 dataset in R, to create an appropriate graphic of R-Rated movie budgets.</p>
+<pre class="r"><code>favstats(budget~rating, data = mr4)</code></pre>
+<pre><code>##   rating min Q1 median Q3 max     mean       sd    n missing
+## 1      G   0  0   24.0 50 200 37.52925 47.11197  147       0
+## 2     PG   0  0   18.0 45 260 33.65402 44.67919  951       0
+## 3  PG-13   0  5   22.0 52 300 38.41096 47.22407 1995       0
+## 4      R   0  0    6.5 22 200 15.64506 22.61918 3392       0</code></pre>
+<pre class="r"><code>boxplot(budget~rating, data = mr4)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="q3" class="section level3">
+<h3>Q3</h3>
+<p>Use the mr4 dataset in R to create an appropriate graphic that shows the growth in budget in movies over time.</p>
+<pre class="r"><code>plot(budget~year, data=mr4)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="week-2" class="section level2">
+<h2>Week 2</h2>
+<div id="q1-1" class="section level3">
+<h3>Q1</h3>
+<p>Use the mr4 dataset in R to compute the mean IMDB score of the different MPAA ratings.</p>
+<pre class="r"><code>pander(mean(score~rating, data = mr4), caption = &quot;Mean IMDB Score by Rating&quot;)</code></pre>
+<table style="width:44%;">
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">G</th>
+<th align="center">PG</th>
+<th align="center">PG-13</th>
+<th align="center">R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">6.438</td>
+<td align="center">6.143</td>
+<td align="center">6.254</td>
+<td align="center">6.453</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="q2-1" class="section level3">
+<h3>Q2</h3>
+<p>Use the mr4 dataset in R to make a graph that allows you to see how the budget is changes by year.</p>
+<pre class="r"><code>plot(budget~year, data = mr4)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="q3-1" class="section level3">
+<h3>Q3</h3>
+<p>Run the following codes in R. Then select the statement that most appropriately interprets the resulting graph.</p>
+<pre class="r"><code>palette(c(&quot;blue&quot;,&quot;red&quot;,&quot;green&quot;,&quot;purple&quot;))
+
+plot(budget ~ year, data=mr4, col=as.factor(rating), pch=16, xlab=&quot;Year&quot;, ylab=&quot;Budget in Millions&quot;, main=&quot;Movies 1986 to 2016&quot;)
+
+legend(&quot;topleft&quot;, pch=16, legend=c(&quot;G&quot;,&quot;PG&quot;,&quot;PG-13&quot;,&quot;R&quot;), title=&quot;MPAA Rating&quot;, bty=&#39;n&#39;, col=palette())</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+</div>
+<div id="week-3" class="section level2">
+<h2>Week 3</h2>
+<div id="q1-2" class="section level3">
+<h3>Q1</h3>
+<p>Use appropriate R commands and the mr4 dataset to determine which movie rating occurred 55 times in 1990.</p>
+<pre class="r"><code>pander(table(mr4$rating, mr4$year == 1990))</code></pre>
+<table style="width:39%;">
+<colgroup>
+<col width="16%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>G</strong></td>
+<td align="center">141</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>PG</strong></td>
+<td align="center">917</td>
+<td align="center">34</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>PG-13</strong></td>
+<td align="center">1940</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>R</strong></td>
+<td align="center">3274</td>
+<td align="center">118</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="q2-2" class="section level3">
+<h3>Q2</h3>
+<p>Use the mr4 dataset in RStudio to test the following hypotheses. <span class="math display">\[
+{ H }_{ 0 }:{ \mu  }_{\text{G Profit}}={ \mu  }_{\text{R Profit}}\\ { H }_{ a }:{ \mu  }_{\text{G Profit}}\neq{ \mu  }_{\text{R Profit}}
+\]</span></p>
+<pre class="r"><code>pander(t.test(Profit2017~rating, data = subset(mr4, rating %in% c(&quot;G&quot;,&quot;R&quot;)), mu = 0, alternative = &quot;two.sided&quot;, conf.level = 0.95))</code></pre>
+<table style="width:93%;">
+<caption>Welch Two Sample t-test: <code>Profit2017</code> by <code>rating</code> (continued below)</caption>
+<colgroup>
+<col width="23%" />
+<col width="11%" />
+<col width="25%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Test statistic</th>
+<th align="center">df</th>
+<th align="center">P value</th>
+<th align="center">Alternative hypothesis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">4.585</td>
+<td align="center">148.9</td>
+<td align="center">9.567e-06 * * *</td>
+<td align="center">two.sided</td>
+</tr>
+</tbody>
+</table>
+<table style="width:50%;">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">mean in group G</th>
+<th align="center">mean in group R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">37.26</td>
+<td align="center">6.76</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="q3-2" class="section level3">
+<h3>Q3</h3>
+<p>What two things are required to compute a p-value?</p>
+<ol style="list-style-type: decimal">
+<li>A test statistic</li>
+<li>sampling distribution of the test statistic</li>
+</ol>
+</div>
+</div>
+<div id="week-4" class="section level2">
+<h2>Week 4</h2>
+<div id="q1-3" class="section level3">
+<h3>Q1</h3>
+<p>Use the mr4 dataset in R to find the number of R-rated movies from the UK in the dataset.</p>
+<pre class="r"><code>pander(table(mr4$rating, mr4$country %in% &quot;UK&quot;))</code></pre>
+<table style="width:39%;">
+<colgroup>
+<col width="16%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>G</strong></td>
+<td align="center">135</td>
+<td align="center">12</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>PG</strong></td>
+<td align="center">864</td>
+<td align="center">87</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>PG-13</strong></td>
+<td align="center">1819</td>
+<td align="center">176</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>R</strong></td>
+<td align="center">3006</td>
+<td align="center">386</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="q2-3" class="section level3">
+<h3>Q2</h3>
+<p>Create an appropriate graphic using the mr4 dataset in R that would allow you to compare the distribution of Profit for Movies in each Rating.</p>
+<pre class="r"><code>boxplot(Profit2017 ~ rating, data=mr4, ylab=&quot;Profit in millions&quot;, xlab=&quot;Rating&quot;, main=&quot;Profit by Rating&quot;)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="q3-3" class="section level3">
+<h3>Q3</h3>
+<p>Perform an appropriate Wilcoxon Test of the following hypotheses using the mr4 dataset in R. <span class="math display">\[
+{ H }_{ 0 }:\quad { { Median }_{ G Profit }=Median }_{ R Profit }\\ { H }_{ a }:\quad { { Median }_{ G Profit }\neq Median }_{ R Profit }
+\]</span></p>
+<pre class="r"><code>pander(wilcox.test(Profit2017 ~ rating, data=subset(mr4, rating %in% c(&quot;G&quot;,&quot;R&quot;))))</code></pre>
+<table style="width:82%;">
+<caption>Wilcoxon rank sum test with continuity correction: <code>Profit2017</code> by <code>rating</code></caption>
+<colgroup>
+<col width="23%" />
+<col width="25%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Test statistic</th>
+<th align="center">P value</th>
+<th align="center">Alternative hypothesis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">317306</td>
+<td align="center">2.068e-08 * * *</td>
+<td align="center">two.sided</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="week-5" class="section level2">
+<h2>Week 5</h2>
+<div id="q3-4" class="section level3">
+<h3>Q3</h3>
+<p>In the mr4 dataset, what is the average length of G-Rated Movies released in 1990?</p>
+<pre class="r"><code>pander(mean(runtime ~ rating, data=subset(mr4, year == &quot;1990&quot;), groups=year))</code></pre>
+<table style="width:69%;">
+<colgroup>
+<col width="12%" />
+<col width="13%" />
+<col width="18%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">G.1990</th>
+<th align="center">PG.1990</th>
+<th align="center">PG-13.1990</th>
+<th align="center">R.1990</th>
+<th align="center">1990</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">89.33</td>
+<td align="center">103.3</td>
+<td align="center">103.8</td>
+<td align="center">106</td>
+<td align="center">104.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="week-6" class="section level2">
+<h2>Week 6</h2>
+<pre class="r"><code>pander(kruskal.test(salary~ rank, data=Salaries))</code></pre>
+<table style="width:54%;">
+<caption>Kruskal-Wallis rank sum test: <code>salary</code> by <code>rank</code></caption>
+<colgroup>
+<col width="23%" />
+<col width="6%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Test statistic</th>
+<th align="center">df</th>
+<th align="center">P value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">194</td>
+<td align="center">2</td>
+<td align="center">7.449e-43 * * *</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kruskal.test(salary~ rank, data=Salaries)</code></pre>
+<pre><code>## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  salary by rank
+## Kruskal-Wallis chi-squared = 194.01, df = 2, p-value &lt; 2.2e-16</code></pre>
+<pre class="r"><code>boxplot(salary~ rank, data=Salaries)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code>median(salary~ rank, data=Salaries)</code></pre>
+<pre><code>##  AsstProf AssocProf      Prof 
+##   79800.0   95626.5  123321.5</code></pre>
+</div>
+<div id="week-7" class="section level2">
+<h2>Week 7</h2>
+<pre class="r"><code>plot(Height ~ Volume, data=trees)
+trees.lm &lt;- lm(Height ~ Volume, data=trees)
+abline(trees.lm)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<pre class="r"><code>summary(trees.lm)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Height ~ Volume, data = trees)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.7777  -2.9722  -0.1515   2.0804  10.6426 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 69.00336    1.97443  34.949  &lt; 2e-16 ***
+## Volume       0.23190    0.05768   4.021 0.000378 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 5.193 on 29 degrees of freedom
+## Multiple R-squared:  0.3579, Adjusted R-squared:  0.3358 
+## F-statistic: 16.16 on 1 and 29 DF,  p-value: 0.0003784</code></pre>
+<pre class="r"><code>trees.lm$coefficients</code></pre>
+<pre><code>## (Intercept)      Volume 
+##  69.0033557   0.2318999</code></pre>
+<pre class="r"><code>par(mfrow=c(1,2))
+plot(trees.lm, which=1:2)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-16-2.png" width="672" /></p>
+<pre class="r"><code>par(mfrow = c(1,1)) #This resets your plotting window for future plots.</code></pre>
+<pre class="r"><code>plot(waiting ~ eruptions, data=faithful)
+of.lm &lt;- lm(waiting ~ eruptions, data=faithful)
+abline(of.lm)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre class="r"><code>pander(summary(of.lm))</code></pre>
+<table style="width:88%;">
+<colgroup>
+<col width="25%" />
+<col width="15%" />
+<col width="18%" />
+<col width="13%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Estimate</th>
+<th align="center">Std. Error</th>
+<th align="center">t value</th>
+<th align="center">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>(Intercept)</strong></td>
+<td align="center">33.47</td>
+<td align="center">1.155</td>
+<td align="center">28.99</td>
+<td align="center">7.136e-85</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>eruptions</strong></td>
+<td align="center">10.73</td>
+<td align="center">0.3148</td>
+<td align="center">34.09</td>
+<td align="center">8.13e-100</td>
+</tr>
+</tbody>
+</table>
+<table style="width:86%;">
+<caption>Fitting linear model: waiting ~ eruptions</caption>
+<colgroup>
+<col width="20%" />
+<col width="30%" />
+<col width="12%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Observations</th>
+<th align="center">Residual Std. Error</th>
+<th align="center"><span class="math inline">\(R^2\)</span></th>
+<th align="center">Adjusted <span class="math inline">\(R^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">272</td>
+<td align="center">5.914</td>
+<td align="center">0.8115</td>
+<td align="center">0.8108</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>par(mfrow=c(1,2))
+plot(of.lm, which=1:2)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<pre class="r"><code>par(mfrow = c(1,1))
+qqPlot(of.lm)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-17-3.png" width="672" /></p>
+<pre class="r"><code>plot(length ~ width, data=KidsFeet)
+of.lm &lt;- lm(length ~ width, data=KidsFeet)
+abline(of.lm)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<pre class="r"><code>pander(summary(of.lm))</code></pre>
+<table style="width:88%;">
+<colgroup>
+<col width="25%" />
+<col width="15%" />
+<col width="18%" />
+<col width="13%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Estimate</th>
+<th align="center">Std. Error</th>
+<th align="center">t value</th>
+<th align="center">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>(Intercept)</strong></td>
+<td align="center">9.817</td>
+<td align="center">2.938</td>
+<td align="center">3.341</td>
+<td align="center">0.001915</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>width</strong></td>
+<td align="center">1.658</td>
+<td align="center">0.3262</td>
+<td align="center">5.081</td>
+<td align="center">1.097e-05</td>
+</tr>
+</tbody>
+</table>
+<table style="width:85%;">
+<caption>Fitting linear model: length ~ width</caption>
+<colgroup>
+<col width="20%" />
+<col width="30%" />
+<col width="11%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Observations</th>
+<th align="center">Residual Std. Error</th>
+<th align="center"><span class="math inline">\(R^2\)</span></th>
+<th align="center">Adjusted <span class="math inline">\(R^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">39</td>
+<td align="center">1.025</td>
+<td align="center">0.411</td>
+<td align="center">0.3951</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>par(mfrow=c(1,2))
+plot(of.lm, which=1:2)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<pre class="r"><code>par(mfrow = c(1,1))
+qqPlot(of.lm)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-18-3.png" width="672" /></p>
+</div>
+<div id="week-8" class="section level2">
+<h2>Week 8</h2>
+<pre class="r"><code>#boxplot(length~sex,data=mtcars)
+lmcars &lt;- lm(mpg ~ qsec + am + qsec:am, data=mtcars)
+lmcars</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = mpg ~ qsec + am + qsec:am, data = mtcars)
+## 
+## Coefficients:
+## (Intercept)         qsec           am      qsec:am  
+##      -9.010        1.439      -14.511        1.321</code></pre>
+<pre class="r"><code>summary(lmcars)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = mpg ~ qsec + am + qsec:am, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.4551 -1.4331  0.1918  2.2493  7.2773 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  -9.0099     8.2179  -1.096  0.28226   
+## qsec          1.4385     0.4500   3.197  0.00343 **
+## am          -14.5107    12.4812  -1.163  0.25481   
+## qsec:am       1.3214     0.7017   1.883  0.07012 . 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.343 on 28 degrees of freedom
+## Multiple R-squared:  0.722,  Adjusted R-squared:  0.6923 
+## F-statistic: 24.24 on 3 and 28 DF,  p-value: 6.129e-08</code></pre>
+<pre class="r"><code>pander(lmcars)</code></pre>
+<table style="width:86%;">
+<caption>Fitting linear model: mpg ~ qsec + am + qsec:am</caption>
+<colgroup>
+<col width="25%" />
+<col width="15%" />
+<col width="18%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Estimate</th>
+<th align="center">Std. Error</th>
+<th align="center">t value</th>
+<th align="center">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>(Intercept)</strong></td>
+<td align="center">-9.01</td>
+<td align="center">8.218</td>
+<td align="center">-1.096</td>
+<td align="center">0.2823</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>qsec</strong></td>
+<td align="center">1.439</td>
+<td align="center">0.45</td>
+<td align="center">3.197</td>
+<td align="center">0.003432</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>am</strong></td>
+<td align="center">-14.51</td>
+<td align="center">12.48</td>
+<td align="center">-1.163</td>
+<td align="center">0.2548</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>qsec:am</strong></td>
+<td align="center">1.321</td>
+<td align="center">0.7017</td>
+<td align="center">1.883</td>
+<td align="center">0.07012</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>par(mfrow=c(1,2))
+plot(lmcars, which=1:2)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<pre class="r"><code>par(mfrow = c(1,1))
+
+lmcars$coefficients</code></pre>
+<pre><code>## (Intercept)        qsec          am     qsec:am 
+##   -9.009861    1.438542  -14.510686    1.321415</code></pre>
+<pre class="r"><code>b&lt;-lmcars$coefficients
+palette(c(&quot;blue&quot;,&quot;red&quot;))
+plot(mpg ~ qsec,data=mtcars, col=as.factor(mtcars$am),pch=16)
+abline(b[1], b[2], col=&quot;blue&quot;)
+abline(b[1]+ b[3],b[2]+ b[4], col=&quot;red&quot;)
+legend(&quot;topright&quot;,c(&quot;Automatic&quot;,&quot;Manual&quot;), lty=1, lwd=5, col=palette(), cex=0.7, title=&quot;Transmission&quot;)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
+<p><span class="math display">\[\underbrace{Y_i}_{mpg}=\beta_0+\beta_1\underbrace{X_{1i}}_{qsec}+\beta_2\underbrace{X_{2i}}_{am}+\beta_3\underbrace{X_{1i}X_{2i}}_{interaction}+\epsilon_i \]</span></p>
+<p><span class="math inline">\(\hat{ Y }_{ i }=\)</span> -9.009861 + 1.4385416 <span class="math inline">\({ X }_{ 1i }+\)</span> -14.5106855 <span class="math inline">\({ X }_{ 2i }+\)</span> 1.3214154 <span class="math inline">\({ X }_{ 1i }{ X }_{ 2i }\)</span></p>
+</div>
+<div id="week-10" class="section level2">
+<h2>week 10</h2>
+<pre class="r"><code>plot(am~mpg,data=mtcars, pch=16)
+MTC.glm &lt;- glm(am&gt;0 ~ mpg, data=mtcars, family=binomial)
+summary(MTC.glm)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = am &gt; 0 ~ mpg, family = binomial, data = mtcars)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.5701  -0.7531  -0.4245   0.5866   2.0617  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)  -6.6035     2.3514  -2.808  0.00498 **
+## mpg           0.3070     0.1148   2.673  0.00751 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 43.230  on 31  degrees of freedom
+## Residual deviance: 29.675  on 30  degrees of freedom
+## AIC: 33.675
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code>b&lt;-MTC.glm$coefficients
+
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), from=8, to=40, add=TRUE)
+pc&lt;-predict(MTC.glm, data.frame(mpg=31), type=&#39;response&#39;)
+
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), from=-1, to=40, add=TRUE, col=&quot;red&quot;)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-20-1.png" width="672" /> The probability that a car has an manual transmission given that it gets 31 mpg is 0.9485511</p>
+<p><span class="math display">\[
+P(Y_i=1|x_i)={e^{\beta_0+\beta_1x_i}}\frac{a}
+\]</span> The odds that a car has a manual transmission increases 36% for every mpg increase. <span class="math inline">\(e^{\beta_1}\)</span></p>
+<div id="challenger" class="section level3">
+<h3>Challenger</h3>
+<pre class="r"><code>library(alr3)</code></pre>
+<pre><code>## Warning: package &#39;alr3&#39; was built under R version 3.4.3</code></pre>
+<p><span class="math display">\[
+  P(Y_i = 1|x_i) = \frac{e^{\beta_0+\beta_1 x_i}}{1+e^{\beta_0 + \beta_1 x_i}} = \pi_i
+\]</span></p>
+<pre class="r"><code>library(alr3)
+chall.glm &lt;- glm(Fail&gt;0 ~ Temp, data=challeng, family=binomial)
+summary(chall.glm)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Fail &gt; 0 ~ Temp, family = binomial, data = challeng)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.0611  -0.7613  -0.3783   0.4524   2.2175  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)  
+## (Intercept)  15.0429     7.3786   2.039   0.0415 *
+## Temp         -0.2322     0.1082  -2.145   0.0320 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 28.267  on 22  degrees of freedom
+## Residual deviance: 20.315  on 21  degrees of freedom
+## AIC: 24.315
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code>b&lt;-chall.glm$coefficients
+plot( Fail&gt;0 ~ Temp, data=challeng, main=&quot;&quot;, ylab=&#39;Probability of O-rings Failing&#39;, pch=16)
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code>library(ResourceSelection)</code></pre>
+<pre class="r"><code>hoslem.test(chall.glm$y, chall.glm$fitted, g=6)</code></pre>
+<pre><code>## 
+##  Hosmer and Lemeshow goodness of fit (GOF) test
+## 
+## data:  chall.glm$y, chall.glm$fitted
+## X-squared = 7.4118, df = 4, p-value = 0.1157</code></pre>
+<pre class="r"><code># Note: doesn&#39;t give a p-value for g &gt;= 7, default is g=10.
+# Larger g is usually better than smaller g.</code></pre>
+<pre class="r"><code>infert.glm &lt;- glm( (spontaneous &gt; 0) ~ age, data=infert, family=binomial)
+b&lt;-summary(infert.glm)$coefficients
+plot( (spontaneous &gt; 0) ~ age, data=infert)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<pre class="r"><code>table(infert$age)</code></pre>
+<pre><code>## 
+## 21 23 24 25 26 27 28 29 30 31 32 34 35 36 37 38 39 40 41 42 44 
+##  6  6  3 15 15 15 30 12 12 21 15 18 18 15 12  8  9  6  3  6  3</code></pre>
+<pre class="r"><code>pchisq(334.01, 246, lower.tail=FALSE)</code></pre>
+<pre><code>## [1] 0.0001571274</code></pre>
+<pre class="r"><code>HG&lt;-Galton
+HG$bs&lt;-as.integer(Galton$sex)-1
+HG$bs&lt;-as.integer(HG$bs)
+h.glm &lt;- glm(bs ~ height, data=HG, family=binomial)
+summary(h.glm)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = bs ~ height, family = binomial, data = HG)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.5425  -0.5068   0.0789   0.5046   3.2188  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -52.98422    3.40240  -15.57   &lt;2e-16 ***
+## height        0.79683    0.05117   15.57   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1243.75  on 897  degrees of freedom
+## Residual deviance:  626.22  on 896  degrees of freedom
+## AIC: 630.22
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<pre class="r"><code>b&lt;-h.glm$coefficients
+plot(bs~ height, data=HG)
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<pre class="r"><code>pm&lt;-predict(h.glm, data.frame(height=65), type=&#39;response&#39;)</code></pre>
+<pre class="r"><code>library(ResourceSelection)
+
+hoslem.test(h.glm$y, h.glm$fitted, g=10)</code></pre>
+<pre><code>## 
+##  Hosmer and Lemeshow goodness of fit (GOF) test
+## 
+## data:  h.glm$y, h.glm$fitted
+## X-squared = 1.6661, df = 8, p-value = 0.9896</code></pre>
+<pre class="r"><code># Note: doesn&#39;t give a p-value for g &gt;= 7, default is g=10.
+# Larger g is usually better than smaller g.</code></pre>
+</div>
+</div>
+<div id="week-11" class="section level2">
+<h2>Week 11</h2>
+<pre class="r"><code>library(robustbase)</code></pre>
+<pre><code>## Warning: package &#39;robustbase&#39; was built under R version 3.4.4</code></pre>
+<pre><code>## 
+## Attaching package: &#39;robustbase&#39;</code></pre>
+<pre><code>## The following object is masked _by_ &#39;.GlobalEnv&#39;:
+## 
+##     education</code></pre>
+<pre><code>## The following object is masked from &#39;package:alr3&#39;:
+## 
+##     cloud</code></pre>
+<pre class="r"><code>FSP.glm &lt;- glm(participation ~ income + tenancy , data=foodstamp, family=binomial)
+pander(summary(FSP.glm))</code></pre>
+<table style="width:89%;">
+<colgroup>
+<col width="25%" />
+<col width="16%" />
+<col width="18%" />
+<col width="13%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Estimate</th>
+<th align="center">Std. Error</th>
+<th align="center">z value</th>
+<th align="center">Pr(&gt;|z|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>(Intercept)</strong></td>
+<td align="center">0.07173</td>
+<td align="center">0.4671</td>
+<td align="center">0.1536</td>
+<td align="center">0.878</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>income</strong></td>
+<td align="center">-0.001693</td>
+<td align="center">0.0009464</td>
+<td align="center">-1.789</td>
+<td align="center">0.07358</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>tenancy</strong></td>
+<td align="center">-1.843</td>
+<td align="center">0.5225</td>
+<td align="center">-3.527</td>
+<td align="center">0.0004205</td>
+</tr>
+</tbody>
+</table>
+<p>(Dispersion parameter for binomial family taken to be 1 )</p>
+<table style="width:67%;">
+<colgroup>
+<col width="29%" />
+<col width="37%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="center">Null deviance:</td>
+<td align="center">131.9 on 149 degrees of freedom</td>
+</tr>
+<tr class="even">
+<td align="center">Residual deviance:</td>
+<td align="center">106.6 on 147 degrees of freedom</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>b&lt;-FSP.glm$coefficients
+pvLR&lt;-coef(summary(FSP.glm))[2,4]
+pander(hoslem.test(FSP.glm$y, FSP.glm$fitted))</code></pre>
+<table style="width:43%;">
+<caption>Hosmer and Lemeshow goodness of fit (GOF) test: <code>FSP.glm$y, FSP.glm$fitted</code></caption>
+<colgroup>
+<col width="23%" />
+<col width="6%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Test statistic</th>
+<th align="center">df</th>
+<th align="center">P value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">11.97</td>
+<td align="center">8</td>
+<td align="center">0.1527</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>hlpv&lt;-hoslem.test(FSP.glm$y, FSP.glm$fitted)$p.value
+plot(participation ~ income, data=foodstamp, pch=16, cex=0.5, xlim=c(0,5000), xlab= &quot;income&quot;, ylab=&quot;Food Stamp Program&quot;)
+
+curve(exp(b[1] + b[2]*x)/(1+exp(b[1] + b[2]*x)),from=0, to=5000,  add=TRUE, col=&#39;Blue&#39;)
+
+curve(exp(b[1]+b[3] + (b[2])*x)/(1+exp(b[1]+b[3] + (b[2])*x)),from=0, to=5000,  add=TRUE, col=&#39;red&#39;)
+
+legend(&quot;right&quot;, legend=c(&quot;Not Own Home&quot;, &quot;Own Home&quot;), col=c(&quot;Blue&quot;,&quot;red&quot;), lty=1)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<pre class="r"><code>table(foodstamp$income, foodstamp$tenancy)</code></pre>
+<pre><code>##       
+##        0 1
+##   0    1 0
+##   84   0 1
+##   107  0 1
+##   125  1 0
+##   150  1 0
+##   167  0 1
+##   168  0 1
+##   169  1 0
+##   176  1 0
+##   177  1 0
+##   184  1 0
+##   187  0 1
+##   188  0 1
+##   196  1 1
+##   197  1 1
+##   198  1 0
+##   200  1 0
+##   201  1 0
+##   203  1 0
+##   205  1 0
+##   211  0 1
+##   212  0 1
+##   214  1 0
+##   220  0 1
+##   221  1 0
+##   230  0 1
+##   233  0 2
+##   235  0 2
+##   242  1 0
+##   248  1 0
+##   250  0 1
+##   260  0 2
+##   264  1 0
+##   266  1 0
+##   271  0 1
+##   273  0 2
+##   274  1 0
+##   285  1 1
+##   286  1 0
+##   287  0 1
+##   291  0 1
+##   295  0 1
+##   296  0 1
+##   307  0 1
+##   334  1 0
+##   346  0 1
+##   350  1 0
+##   354  0 1
+##   356  1 0
+##   372  1 0
+##   373  0 1
+##   379  0 1
+##   385  0 1
+##   386  1 0
+##   426  0 1
+##   429  0 1
+##   430  1 0
+##   435  0 1
+##   440  0 1
+##   443  1 0
+##   444  0 1
+##   449  0 1
+##   450  1 0
+##   452  1 0
+##   453  1 0
+##   458  0 1
+##   459  0 1
+##   460  0 1
+##   462  1 0
+##   465  0 1
+##   471  0 1
+##   476  0 2
+##   477  0 2
+##   482  0 1
+##   489  0 1
+##   495  0 1
+##   499  0 1
+##   500  0 1
+##   512  1 0
+##   517  0 1
+##   518  0 1
+##   519  0 1
+##   520  1 0
+##   521  0 1
+##   523  0 1
+##   534  1 0
+##   540  1 0
+##   575  1 0
+##   580  0 1
+##   581  1 0
+##   586  1 0
+##   589  0 1
+##   596  0 1
+##   607  0 1
+##   611  1 0
+##   613  1 0
+##   664  0 1
+##   683  0 1
+##   685  1 0
+##   697  0 1
+##   704  1 0
+##   714  0 1
+##   735  1 0
+##   797  0 1
+##   885  1 0
+##   893  2 0
+##   943  0 1
+##   977  1 0
+##   992  0 1
+##   1061 0 1
+##   1143 0 1
+##   1170 0 2
+##   1179 0 1
+##   1200 0 1
+##   1202 0 1
+##   1228 0 1
+##   1251 0 1
+##   1266 0 1
+##   1410 0 1
+##   1427 1 0
+##   1445 0 2
+##   1504 0 1
+##   1578 0 1
+##   1644 0 1
+##   1653 0 1
+##   1661 0 1
+##   1680 0 1
+##   1715 0 1
+##   1765 0 1
+##   1980 0 1
+##   2165 0 1
+##   2331 0 1
+##   2556 0 1
+##   2697 0 1
+##   2995 0 1
+##   3525 0 1
+##   3556 0 1
+##   4533 0 1</code></pre>
+<pre class="r"><code>pander(hoslem.test(FSP.glm$y, FSP.glm$fitted))</code></pre>
+<table style="width:43%;">
+<caption>Hosmer and Lemeshow goodness of fit (GOF) test: <code>FSP.glm$y, FSP.glm$fitted</code></caption>
+<colgroup>
+<col width="23%" />
+<col width="6%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Test statistic</th>
+<th align="center">df</th>
+<th align="center">P value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">11.97</td>
+<td align="center">8</td>
+<td align="center">0.1527</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summary(FSP.glm)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = participation ~ income + tenancy, family = binomial, 
+##     data = foodstamp)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.2080  -0.4799  -0.3826  -0.1438   2.7659  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  0.0717322  0.4671385   0.154  0.87796    
+## income      -0.0016933  0.0009464  -1.789  0.07358 .  
+## tenancy     -1.8427382  0.5224821  -3.527  0.00042 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 131.90  on 149  degrees of freedom
+## Residual deviance: 106.65  on 147  degrees of freedom
+## AIC: 112.65
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<pre class="r"><code>pchisq(131.90, 149, lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 0.8394538</code></pre>
+<pre class="r"><code>pchisq(106.90, 147, lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 0.9946667</code></pre>
+<pre class="r"><code>pchisq(131.90-106.65, 2, lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 3.28876e-06</code></pre>
+<p>The odds of participating in food stamps if you own a home is 0.1583831 of the odds of participating in food stamps if you do not own a home. This makes it 6.313803 times more likely to participate in food stamps if you do not own a home even if you have the same income.</p>
+<pre class="r"><code>plot((Wind &gt; 10) ~ Temp, data=airquality, xlab=&quot;Daily Average Temperature&quot;, ylab=&quot;Probability Daily Average Wind Speed (mph) &gt; 10&quot;, main=&quot;La Guardia Airport Measurements in 1973&quot;)</code></pre>
+<p><img src="HarmonQuiz-RKS180MEDIA_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<pre class="r"><code>air.glm &lt;- glm(Wind &gt; 10 ~ Temp + as.factor(Month), data=airquality, family = binomial)
+summary(air.glm)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Wind &gt; 10 ~ Temp + as.factor(Month), family = binomial, 
+##     data = airquality)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.7457  -0.9825  -0.6264   1.0925   1.8717  
+## 
+## Coefficients:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)        6.99664    1.92840   3.628 0.000285 ***
+## Temp              -0.10140    0.02867  -3.537 0.000405 ***
+## as.factor(Month)6  0.87217    0.65487   1.332 0.182919    
+## as.factor(Month)7  0.73891    0.74202   0.996 0.319348    
+## as.factor(Month)8  1.00550    0.73050   1.376 0.168682    
+## as.factor(Month)9  1.25238    0.64839   1.932 0.053418 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 211.57  on 152  degrees of freedom
+## Residual deviance: 190.09  on 147  degrees of freedom
+## AIC: 202.09
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

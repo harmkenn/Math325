@@ -1,0 +1,252 @@
+---
+title: "Harmon Important Code"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+    #toc: true
+    #toc_float: true
+---
+```{r, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+```
+
+## Dataframes {.tabset .tabset-fade}
+
+### Nothing
+
+### Read
+
+Read and write a csv dataset after setting a working directory
+```{r}
+Movies31<-read.csv("./Data/movies31.csv", header=TRUE, stringsAsFactors = FALSE)
+CPI <- read.csv("./Data/CPI1914to2017.csv", header=TRUE, stringsAsFactors = FALSE)
+#write.csv(Movies31, file = "./Data/MoviesOut.csv")
+```
+
+### Subsets
+```{r}
+# slim down to 4 ratings
+mr4<-subset(Movies31, rating %in% c("G","PG","PG-13","R"), )
+
+# movies G-rated and > $100 Mil
+GoodFamily <- subset(Movies31, rating == "G" & gross >= 100000000)
+
+# Change budget = 0 to budget = NA
+Movies.wb <- Movies31
+MB <- Movies.wb$budget
+MB[MB == 0] <- NA 
+Movies.wb$budget <- MB
+
+# Filter out budget = NA
+Movies.wb <- subset(Movies.wb, !is.na(budget))
+
+#re-sort columns
+mycolumns<-c(15,9,7,2,5,8,10,3,1,6,4,13,11,12,14)
+Movies.Sorted<-Movies31[mycolumns]
+
+#re-sort rows
+Movies.Sorted <- Movies.Sorted[order(Movies.Sorted$released),]
+
+# Cut a Quantitative Variable into categories
+Movies.Sorted$buster <- cut(Movies.Sorted$gross, breaks = c(0,100000,1000000,10000000,100000000,1000000000), 
+                            labels = c("Size 1","Size 2","Size 3","Size 4","Size 5"))
+
+airquality$Season<-mapvalues(airquality$Month,5:9,c("Spr",rep("Sum",3),"Fall"))
+
+```
+
+### Summary
+```{r}
+datatable(GoodFamily, extensions = "Responsive",options=list(lengthMenu = c(3,10,30)))
+pander::pander(favstats(budget~country, data = GoodFamily))
+GbyC<-favstats(budget~country, data = GoodFamily)
+knitr::kable(GbyC)
+pander::pander(sum(budget~country, data = GoodFamily))
+```
+
+### Convert
+```{r}
+Movies31$year <- as.factor(Movies31$year)
+Movies31$year <- as.integer(as.character(Movies31$year))
+
+Movies.Sorted[5:6] <- lapply(Movies.Sorted[5:6], function(x) as.factor(x))
+```
+
+### Vlookup
+```{r}
+movies2017<-merge(Movies.wb,CPI, by.x = "year", by.y = "Year", all.x = TRUE)
+movies2017$Newbudget<-movies2017$budget*movies2017$Factor
+```
+
+## Categorical (Qualitative) Data {.tabset .tabset-fade}
+
+### Nothing
+
+### Bar Charts
+```{r}
+cbust<-table(Movies.Sorted$buster)
+barplot( cbust, col=c("gray84","gray44") ,beside=TRUE , legend.text=TRUE )
+mscore<-median(score~buster, data = Movies.Sorted)
+barplot(mscore, col=c("blue","gold") ,beside=TRUE , legend.text=TRUE )
+
+Movies.Sorted$rating <- as.character(Movies.Sorted$rating)
+
+mrs4<-subset(Movies.Sorted, rating %in% c("G","PG","PG-13","R"), )
+counts <- table(mrs4$rating, mrs4$buster)
+barplot(counts, main="Movie Distribution \nby Rating and Blockbuster Size", xlab = "Blockbuster size", col = c("darkblue","red","orange","green"), legend = rownames(counts), beside=TRUE)
+
+```
+
+### Table
+```{r}
+Smovie<-subset(mr4, genre %in% c("Comedy","Action","Drama"))
+pander(table(Smovie$genre,Smovie$rating))
+```
+
+## Graphical Summaries {.tabset .tabset-fade}
+
+### Nothing
+
+### Scatterplot
+```{r}
+GoodFamily$budget <- as.integer(GoodFamily$budget)
+plot(gross~budget, data = GoodFamily, xlab="Movie Budget", ylab="Gross Revenue", col="gray", pch=19,
+     main="G-Rated High Grossing Movies\n1986 through 2016")
+abline(lm(gross~budget, data = GoodFamily))
+BestGF<-subset(GoodFamily, budget>=median(GoodFamily$budget))
+points(gross~budget, data = BestGF, col="steelblue", pch=8)
+abline(v=median(GoodFamily$budget), lty=5, col="red", lwd=2)
+```
+
+### Histogram
+```{r}
+hist(Movies.wb$budget, xlab="Budget in Dollars", col="orange", main="")
+title("Reported Budgets for movies", line=2)
+title("1986-2016", line=1)
+```
+
+### boxplot
+```{r}
+boxplot(budget~rating, data=Movies.wb, ylab="MPAA Rating", xlab="Bugdet in Dollars", 
+        col=c("gray","orangered"), main="",
+        horizontal=TRUE)
+title("Reported Budgets for movies", line=2)
+title("1986-2016", line=1)
+```
+
+### dotplot
+```{r}
+stripchart(budget~genre, data=GoodFamily, method="stack" ,ylab="Genre", xlab="Budget in Dollars", 
+           main="G-Rated High Grossing Movies\n and Their Budgets\n1986 through 2016", col="sienna", pch=16)  
+```
+
+
+
+## Inference {.tabset .tabset-fade}
+
+### Nothing
+
+### t-Test
+
+Do R-Rated movies have a significantly greater mean IMDB score than other ratings (G, PG, or PG-13)?
+
+$$
+{ H }_{ 0 }:{ \mu  }_{ R:Score }={ \mu  }_{ other:Score }\\ { H }_{ a }:{ \mu  }_{ R:Score }>{ \mu  }_{ other:Score}
+$$
+```{r}
+mrs4$R<-mrs4$rating
+
+RTF <- mrs4$R
+RTF[RTF != "R"] <- FALSE
+RTF[RTF == "R"] <- TRUE 
+mrs4$R <- RTF
+```
+
+#### Sample Statistics
+```{r}
+pander::pander(favstats(score~R, data = mrs4))
+```
+
+
+```{r}
+R<-subset(mrs4, R %in% TRUE) 
+notR<-subset(mrs4, R %in% FALSE)
+par(mfrow=c(1,2))
+qqPlot(R$score, xlab = "Ranked Z Scores", ylab = "IMDB Score", main = "R-rated Movies")
+qqPlot(notR$score, xlab = "Ranked Z Scores", ylab = "IMDB Score", main = "non-R-rated Movies")
+```
+
+#### Assumptions
+1. These samples **can** be assumed to be representative of the population movies of this type.
+2. According to the QQ-Plots these samples appear to be **not** normal enough.
+
+#### Independent 2 sample t-Test
+```{r}
+
+
+
+ttp<-t.test(R$score,notR$score, mu = 0, alternative = "greater", conf.level = 0.95)$p.value
+tts<-t.test(R$score,notR$score, mu = 0, alternative = "greater", conf.level = 0.95)$statistic
+ttdf<-t.test(R$score,notR$score, mu = 0, alternative = "greater", conf.level = 0.95)$parameter
+
+U<-abs(tts)+1
+L<-U*(-1)
+
+tcv<-qt(.95, ttdf)
+
+
+
+# Create data for the area to shade
+TX<-seq(tts,U,.01)
+cord.x <- c(tts,TX,U) 
+cord.y <- c(0,dt(TX,ttdf),0) 
+
+# Make a curve
+curve(dt(x,ttdf), xlim=c(L,U), main="t-Test for the IMDB score of R-rated movies \ncompared to scores of other rated movies", xlab = "") 
+
+# Add the shaded area.
+polygon(cord.x,cord.y,col='skyblue')
+abline(v=tts, lty=5, col="red", lwd=2)
+abline(v=tcv, lty=5, col="blue", lwd=2)
+text(tcv,.39,"Critical Value", col="blue")
+text(tts,.37,"Test Statistic", col="red")
+
+pander(t.test(R$score,notR$score, mu = 0, alternative = "greater", conf.level = 0.95))
+
+```
+
+* The Test Statistic **(`r tts`)** is greater than the Critical Value **(`r tcv`)**
+* The p-value **(`r ttp`)** is smaller than the Level of Significance **$\alpha = .05$**
+
+Therefore, there is **sufficient evidence** to conclude that R-rated movies have a higher average IMDB score than other movies.
+
+### Wilcoxon Signed-Rank Test {.tabset .tabset-fade .tabset-pills}
+
+```{r}
+favstats(score~year, data = mrs4)
+wilcox.test(score~rating, data = mrs4, subset = rating %in% c("R","G"))
+t.test(score~rating, data = subset(mrs4, rating %in% c("R","G")))
+```
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,81 @@
+name: "math-325-notebook"
+navbar:
+  title: "Ken Harmon's Math 325 Notebook"
+  left:
+    - text: "Table of Contents"
+      href: index.html
+    - text: "Describing Data"
+      menu:
+        - text: "Graphical Summaries"
+          href: GraphicalSummaries.html
+        - text: "Numerical Summaries"
+          href: NumericalSummaries.html
+    - text: "Making Inference"
+      menu:
+        - text: "Making Inference"
+          href: MakingInference.html
+        - text: "t Tests"
+          href: tTests.html   
+        - text: "Wilcoxon Tests"
+          href: WilcoxonTests.html
+        - text: "ANOVA"
+          href: ANOVA.html
+        - text: "Kruskal-Wallis"
+          href: Kruskal.html
+        - text: "Linear Regression"
+          href: LinearRegression.html
+        - text: "Logistic Regression"
+          href: LogisticRegression.html
+        - text: "Chi-Squared"
+          href: ChiSquaredTests.html
+        - text: "Permutation Test"
+          href: PermutationTests.html
+    - text: "R Help"
+      menu:
+        - text: "R Commands"
+          href: RCommands.html
+        - text: "R Markdown Hints"
+          href: RMarkdownHints.html
+        - text: "Harmon Code"
+          href: HarmonCode.html
+        - text: "Harmon Quiz"
+          href: HarmonQuiz.html
+    - text: "Analyses"
+      menu:
+        - text: "Analysis Rubric"
+          href: ./Analyses/AnalysisRubric.html
+        - text: "Good Example Analysis"
+          href: ./Analyses/StudentHousing.html
+        - text: "Poor Example Analysis"
+          href: ./Analyses/StudentHousingPOOR.html
+        - text: "My First Analysis"
+          href: ./Analyses/StudentHousingII.html
+        - text: "A Female Housing (Data & Plots)"
+          href: ./Analyses/A20180113ReAnalysisFemaleBYUIHousing.html  
+        - text: "B Movies (Summary & Plots)"
+          href: ./Analyses/B20180120ReAnalysisMovie.html
+        - text: "C Kids Feet (2 sample t-Test)"
+          href: ./Analyses/C20180127KidsFeetAnalysis.html
+        - text: "D Recalling Words (Wilcoxon)"
+          href: ./Analyses/D20180208ReAnalysisRecallingWords.html
+        - text: "E Daycare (2-Way ANOVA)"
+          href: ./Analyses/E20180210ReAnalysisDayCare.html
+        - text: "F Chocolate (Kruskal)"
+          href: ./Analyses/F20180217ReAnaysisChocolate.html
+        - text: "G Time Test (Linear Regression)"
+          href: ./Analyses/G20180224ReAnaysisTimeTest.html
+        - text: "H Cadillac (Multiple Linear Regression)"
+          href: ./Analyses/H20180303ReAnaysisCadillac.html
+        - text: "I NCAA History (Kruskal)"
+          href: ./Analyses/I20180310AnalysisNCAAHistory.html
+        - text: "J Ken Pomeroy (Logistic Regression)"
+          href: ./Analyses/J2018031ReAnalysisKenPom.html
+        - text: "K Pulse of the Nation (Multiple Logistic Regression)"
+          href: ./Analyses/K20180324ReAnalysisPotN.html
+        - text: "L Pulse of the Nation (Chi-Squared)"
+          href: ./Analyses/L20180331AnalysisChiPotN.html
+        - text: "M Car Price (Permutation)"
+          href: ./Analyses/M20180407AnalysisCarPricePermutation.html
+output_dir: '.'
+
+  

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Harmon Important Code</title>
+
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<script src="site_libs/datatables-binding-0.2/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/dt-ext-responsive-1.10.12/css/responsive.dataTables.min.css" rel="stylesheet" />
+<script src="site_libs/dt-ext-responsive-1.10.12/js/dataTables.responsive.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Ken Harmon's Math 325 Notebook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Table of Contents</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Describing Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GraphicalSummaries.html">Graphical Summaries</a>
+    </li>
+    <li>
+      <a href="NumericalSummaries.html">Numerical Summaries</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Making Inference
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="MakingInference.html">Making Inference</a>
+    </li>
+    <li>
+      <a href="tTests.html">t Tests</a>
+    </li>
+    <li>
+      <a href="WilcoxonTests.html">Wilcoxon Tests</a>
+    </li>
+    <li>
+      <a href="ANOVA.html">ANOVA</a>
+    </li>
+    <li>
+      <a href="Kruskal.html">Kruskal-Wallis</a>
+    </li>
+    <li>
+      <a href="LinearRegression.html">Linear Regression</a>
+    </li>
+    <li>
+      <a href="LogisticRegression.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="ChiSquaredTests.html">Chi-Squared</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Help
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="RCommands.html">R Commands</a>
+    </li>
+    <li>
+      <a href="RMarkdownHints.html">R Markdown Hints</a>
+    </li>
+    <li>
+      <a href="HarmonCode.html">Harmon Code</a>
+    </li>
+    <li>
+      <a href="HarmonQuiz.html">Harmon Quiz</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Analyses
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="./Analyses/AnalysisRubric.html">Analysis Rubric</a>
+    </li>
+    <li>
+      <a href="./Analyses/StudentHousing.html">Good Example Analysis</a>
+    </li>
+    <li>
+      <a href="./Analyses/StudentHousingPOOR.html">Poor Example Analysis</a>
+    </li>
+    <li>
+      <a href="./Analyses/StudentHousingII.html">My First Analysis</a>
+    </li>
+    <li>
+      <a href="./Analyses/A20180113ReAnalysisFemaleBYUIHousing.html">A Female Housing (Data &amp; Plots)</a>
+    </li>
+    <li>
+      <a href="./Analyses/B20180120ReAnalysisMovie.html">B Movies (Summary &amp; Plots)</a>
+    </li>
+    <li>
+      <a href="./Analyses/C20180127KidsFeetAnalysis.html">C Kids Feet (2 sample t-Test)</a>
+    </li>
+    <li>
+      <a href="./Analyses/D20180208ReAnalysisRecallingWords.html">D Recalling Words (Wilcoxon)</a>
+    </li>
+    <li>
+      <a href="./Analyses/E20180210ReAnalysisDayCare.html">E Daycare (2-Way ANOVA)</a>
+    </li>
+    <li>
+      <a href="./Analyses/F20180217ReAnaysisChocolate.html">F Chocolate (Kruskal)</a>
+    </li>
+    <li>
+      <a href="./Analyses/G20180224ReAnaysisTimeTest.html">G Time Test (Linear Regression)</a>
+    </li>
+    <li>
+      <a href="./Analyses/H20180303ReAnaysisCadillac.html">H Cadillac (Multiple Linear Regression)</a>
+    </li>
+    <li>
+      <a href="./Analyses/I20180310AnalysisNCAAHistory.html">I NCAA History (Kruskal)</a>
+    </li>
+    <li>
+      <a href="./Analyses/J2018031ReAnalysisKenPom.html">J Ken Pomeroy (Logistic Regression)</a>
+    </li>
+    <li>
+      <a href="./Analyses/K20180324ReAnalysisPotN.html">K Pulse of the Nation (Multiple Logistic Regression)</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Harmon Important Code</h1>
+
+</div>
+
+
+<div id="dataframes" class="section level2 tabset tabset-fade">
+<h2>Dataframes</h2>
+<div id="nothing" class="section level3">
+<h3>Nothing</h3>
+</div>
+<div id="read" class="section level3">
+<h3>Read</h3>
+<p>Read and write a csv dataset after setting a working directory</p>
+<pre class="r"><code>Movies31&lt;-read.csv(&quot;./Data/movies31.csv&quot;, header=TRUE, stringsAsFactors = FALSE)
+CPI &lt;- read.csv(&quot;./Data/CPI1914to2017.csv&quot;, header=TRUE, stringsAsFactors = FALSE)
+#write.csv(Movies31, file = &quot;./Data/MoviesOut.csv&quot;)</code></pre>
+</div>
+<div id="subsets" class="section level3">
+<h3>Subsets</h3>
+<pre class="r"><code># slim down to 4 ratings
+mr4&lt;-subset(Movies31, rating %in% c(&quot;G&quot;,&quot;PG&quot;,&quot;PG-13&quot;,&quot;R&quot;), )
+
+# movies G-rated and &gt; $100 Mil
+GoodFamily &lt;- subset(Movies31, rating == &quot;G&quot; &amp; gross &gt;= 100000000)
+
+# Change budget = 0 to budget = NA
+Movies.wb &lt;- Movies31
+MB &lt;- Movies.wb$budget
+MB[MB == 0] &lt;- NA 
+Movies.wb$budget &lt;- MB
+
+# Filter out budget = NA
+Movies.wb &lt;- subset(Movies.wb, !is.na(budget))
+
+#re-sort columns
+mycolumns&lt;-c(15,9,7,2,5,8,10,3,1,6,4,13,11,12,14)
+Movies.Sorted&lt;-Movies31[mycolumns]
+
+#re-sort rows
+Movies.Sorted &lt;- Movies.Sorted[order(Movies.Sorted$released),]
+
+# Cut a Quantitative Variable into categories
+Movies.Sorted$buster &lt;- cut(Movies.Sorted$gross, breaks = c(0,100000,1000000,10000000,100000000,1000000000), 
+                            labels = c(&quot;Size 1&quot;,&quot;Size 2&quot;,&quot;Size 3&quot;,&quot;Size 4&quot;,&quot;Size 5&quot;))
+
+airquality$Season&lt;-mapvalues(airquality$Month,5:9,c(&quot;Spr&quot;,rep(&quot;Sum&quot;,3),&quot;Fall&quot;))</code></pre>
+</div>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<pre class="r"><code>datatable(GoodFamily, extensions = &quot;Responsive&quot;,options=list(lengthMenu = c(3,10,30)))</code></pre>
+<div id="htmlwidget-554645226593ea9902a3" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-554645226593ea9902a3">{"x":{"filter":"none","extensions":["Responsive"],"data":[["665","1103","1323","1765","1987","1989","2226","2236","2644","2667","2728","2882","2893","3134","3309","3329","3633","3751","4029","4256","4412","4641","4855","4932","5111","5310","5571","5588","5691","6017","6329","6554"],[40000000,25000000,28000000,45000000,55000000,30000000,100000000,75000000,90000000,120000000,24000000,90000000,130000000,45000000,115000000,26000000,65000000,94000000,165000000,150000000,120000000,150000000,180000000,85000000,105000000,200000000,200000000,90000000,75000000,200000000,103000000,99000000],["Walt Disney Pictures","Walt Disney Pictures","Walt Disney Pictures","Walt Disney Pictures","Walt Disney Pictures","Pixar Animation Studios","Walt Disney Feature Animation","Walt Disney Pictures","Walt Disney Feature Animation Florida","Pixar Animation Studios","Paramount Pictures","Pixar Animation Studios","Walt Disney Pictures","Aardman Animations","Pixar Animation Studios","Walt Disney Pictures","Walt Disney Pictures","Pixar Animation Studios","Castle Rock Entertainment","Walt Disney Pictures","Pixar Animation Studios","Pixar Animation Studios","FortyFour Studios","Blue Sky Studios","Walt Disney Animation Studios","Walt Disney Pictures","Walt Disney Pictures","Twentieth Century Fox Animation","Fox 2000 Pictures","Walt Disney Pictures","Twentieth Century Fox Animation","Twentieth Century Fox Animation"],["USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","UK","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA","USA"],["Ron Clements","Gary Trousdale","Ron Clements","Roger Allers","Mike Gabriel","John Lasseter","Gary Trousdale","Stephen Herek","Tony Bancroft","John Lasseter","Igor Kovalyov","John Lasseter","Chris Buck","Peter Lord","Pete Docter","Garry Marshall","Michael Lembeck","Andrew Stanton","Robert Zemeckis","Mark Dindal","John Lasseter","Brad Bird","Andrew Stanton","Jimmy Hayward","Ron Clements","Lee Unkrich","John Lasseter","Carlos Saldanha","Mike Mitchell","Dan Scanlon","Carlos Saldanha","Steve Martino"],["Animation","Animation","Animation","Animation","Animation","Animation","Animation","Adventure","Animation","Animation","Animation","Animation","Animation","Animation","Animation","Comedy","Comedy","Animation","Animation","Animation","Animation","Animation","Animation","Animation","Animation","Animation","Animation","Animation","Animation","Animation","Animation","Animation"],[111543479,218967620,217350219,312900000,141600000,191796233,100138851,136189294,120620254,162798565,100494675,245852179,171091819,106834564,289916256,108248956,139236327,380843261,183373735,135386665,244082982,206445654,223808164,154529439,104400899,415004880,191452396,143619809,133110742,268492764,131538435,130178411],["The Little Mermaid","Beauty and the Beast","Aladdin","The Lion King","Pocahontas","Toy Story","The Hunchback of Notre Dame","101 Dalmatians","Mulan","A Bug's Life","The Rugrats Movie","Toy Story 2","Tarzan","Chicken Run","Monsters, Inc.","The Princess Diaries","The Santa Clause 2","Finding Nemo","The Polar Express","Chicken Little","Cars","Ratatouille","WALL·E","Horton Hears a Who!","The Princess and the Frog","Toy Story 3","Cars 2","Rio","Alvin and the Chipmunks: Chipwrecked","Monsters University","Rio 2","The Peanuts Movie"],["G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G","G"],["1989-11-17","1991-11-22","1992-11-25","1994-06-24","1995-06-23","1995-11-22","1996-06-21","1996-11-27","1998-06-19","1998-11-25","1998-11-20","1999-11-24","1999-06-18","2000-06-23","2001-11-02","2001-08-03","2002-11-01","2003-05-30","2004-11-10","2005-11-04","2006-06-09","2007-06-29","2008-06-27","2008-03-14","2009-12-11","2010-06-18","2011-06-24","2011-04-15","2011-12-16","2013-06-21","2014-04-11","2015-11-06"],[83,84,90,88,81,81,91,103,88,95,79,92,88,84,92,111,104,100,100,81,117,111,98,86,97,103,106,96,87,104,101,88],[7.6,8,8,8.5,6.7,8.3,6.9,5.7,7.6,7.2,5.9,7.9,7.2,7,8.1,6.3,5.6,8.1,6.6,5.8,7.1,8,8.4,6.8,7.1,8.3,6.2,6.9,4.4,7.3,6.3,7.1],["Jodi Benson","Paige O'Hara","Scott Weinger","Matthew Broderick","Mel Gibson","Tom Hanks","Demi Moore","Glenn Close","Ming-Na Wen","Kevin Spacey","Elizabeth Daily","Tom Hanks","Tony Goldwyn","Mel Gibson","Billy Crystal","Julie Andrews","Tim Allen","Albert Brooks","Tom Hanks","Zach Braff","Owen Wilson","Brad Garrett","Ben Burtt","Jim Carrey","Anika Noni Rose","Tom Hanks","Owen Wilson","Jesse Eisenberg","Justin Long","Billy Crystal","Jesse Eisenberg","Noah Schnapp"],[188455,344844,287068,723070,133708,694113,113772,81872,193214,226736,15183,420432,160561,150396,652440,103820,38234,772029,134170,70253,292006,516560,799707,113151,97887,603472,116477,177152,24939,258992,64550,34889],["John Musker","Linda Woolverton","Ron Clements","Irene Mecchi","Carl Binder","John Lasseter","Tab Murphy","Dodie Smith","Robert D. San Souci","John Lasseter","David N. Weiss","John Lasseter","Tab Murphy","Peter Lord","Pete Docter","Meg Cabot","Don Rhymer","Andrew Stanton","Chris Van Allsburg","Mark Dindal","John Lasseter","Brad Bird","Andrew Stanton","Ken Daurio","Ron Clements","John Lasseter","John Lasseter","Carlos Saldanha","Jonathan Aibel","Dan Scanlon","Don Rhymer","Craig Schulz"],[1989,1991,1992,1994,1995,1995,1996,1996,1998,1998,1998,1999,1999,2000,2001,2001,2002,2003,2004,2005,2006,2007,2008,2008,2009,2010,2011,2011,2011,2013,2014,2015]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>budget<\/th>\n      <th>company<\/th>\n      <th>country<\/th>\n      <th>director<\/th>\n      <th>genre<\/th>\n      <th>gross<\/th>\n      <th>name<\/th>\n      <th>rating<\/th>\n      <th>released<\/th>\n      <th>runtime<\/th>\n      <th>score<\/th>\n      <th>star<\/th>\n      <th>votes<\/th>\n      <th>writer<\/th>\n      <th>year<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"lengthMenu":[3,10,30],"columnDefs":[{"className":"dt-right","targets":[1,6,10,11,13,15]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"responsive":true}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>pander::pander(favstats(budget~country, data = GoodFamily))</code></pre>
+<table style="width:99%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="15%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">country</th>
+<th align="center">min</th>
+<th align="center">Q1</th>
+<th align="center">median</th>
+<th align="center">Q3</th>
+<th align="center">max</th>
+<th align="center">mean</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">UK</td>
+<td align="center">4.5e+07</td>
+<td align="center">4.5e+07</td>
+<td align="center">4.5e+07</td>
+<td align="center">4.5e+07</td>
+<td align="center">4.5e+07</td>
+<td align="center">4.5e+07</td>
+</tr>
+<tr class="even">
+<td align="center">USA</td>
+<td align="center">2.4e+07</td>
+<td align="center">6e+07</td>
+<td align="center">9.4e+07</td>
+<td align="center">1.25e+08</td>
+<td align="center">2e+08</td>
+<td align="center">99161290</td>
+</tr>
+</tbody>
+</table>
+<table style="width:35%;">
+<colgroup>
+<col width="15%" />
+<col width="6%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">sd</th>
+<th align="center">n</th>
+<th align="center">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">53606652</td>
+<td align="center">31</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>GbyC&lt;-favstats(budget~country, data = GoodFamily)
+knitr::kable(GbyC)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">country</th>
+<th align="right">min</th>
+<th align="right">Q1</th>
+<th align="right">median</th>
+<th align="right">Q3</th>
+<th align="right">max</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">n</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">UK</td>
+<td align="right">4.5e+07</td>
+<td align="right">4.5e+07</td>
+<td align="right">4.5e+07</td>
+<td align="right">4.50e+07</td>
+<td align="right">4.5e+07</td>
+<td align="right">45000000</td>
+<td align="right">NA</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">USA</td>
+<td align="right">2.4e+07</td>
+<td align="right">6.0e+07</td>
+<td align="right">9.4e+07</td>
+<td align="right">1.25e+08</td>
+<td align="right">2.0e+08</td>
+<td align="right">99161290</td>
+<td align="right">53606652</td>
+<td align="right">31</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>pander::pander(sum(budget~country, data = GoodFamily))</code></pre>
+<table style="width:29%;">
+<colgroup>
+<col width="13%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">UK</th>
+<th align="center">USA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">4.5e+07</td>
+<td align="center">3.074e+09</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="convert" class="section level3">
+<h3>Convert</h3>
+<pre class="r"><code>Movies31$year &lt;- as.factor(Movies31$year)
+Movies31$year &lt;- as.integer(as.character(Movies31$year))
+
+Movies.Sorted[5:6] &lt;- lapply(Movies.Sorted[5:6], function(x) as.factor(x))</code></pre>
+</div>
+<div id="vlookup" class="section level3">
+<h3>Vlookup</h3>
+<pre class="r"><code>movies2017&lt;-merge(Movies.wb,CPI, by.x = &quot;year&quot;, by.y = &quot;Year&quot;, all.x = TRUE)
+movies2017$Newbudget&lt;-movies2017$budget*movies2017$Factor</code></pre>
+</div>
+</div>
+<div id="categorical-qualitative-data" class="section level2 tabset tabset-fade">
+<h2>Categorical (Qualitative) Data</h2>
+<div id="nothing-1" class="section level3">
+<h3>Nothing</h3>
+</div>
+<div id="bar-charts" class="section level3">
+<h3>Bar Charts</h3>
+<pre class="r"><code>cbust&lt;-table(Movies.Sorted$buster)
+barplot( cbust, col=c(&quot;gray84&quot;,&quot;gray44&quot;) ,beside=TRUE , legend.text=TRUE )</code></pre>
+<p><img src="HarmonCode_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>mscore&lt;-median(score~buster, data = Movies.Sorted)
+barplot(mscore, col=c(&quot;blue&quot;,&quot;gold&quot;) ,beside=TRUE , legend.text=TRUE )</code></pre>
+<p><img src="HarmonCode_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<pre class="r"><code>Movies.Sorted$rating &lt;- as.character(Movies.Sorted$rating)
+
+mrs4&lt;-subset(Movies.Sorted, rating %in% c(&quot;G&quot;,&quot;PG&quot;,&quot;PG-13&quot;,&quot;R&quot;), )
+counts &lt;- table(mrs4$rating, mrs4$buster)
+barplot(counts, main=&quot;Movie Distribution \nby Rating and Blockbuster Size&quot;, xlab = &quot;Blockbuster size&quot;, col = c(&quot;darkblue&quot;,&quot;red&quot;,&quot;orange&quot;,&quot;green&quot;), legend = rownames(counts), beside=TRUE)</code></pre>
+<p><img src="HarmonCode_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
+</div>
+<div id="table" class="section level3">
+<h3>Table</h3>
+<pre class="r"><code>Smovie&lt;-subset(mr4, genre %in% c(&quot;Comedy&quot;,&quot;Action&quot;,&quot;Drama&quot;))
+pander(table(Smovie$genre,Smovie$rating))</code></pre>
+<table style="width:51%;">
+<colgroup>
+<col width="18%" />
+<col width="6%" />
+<col width="8%" />
+<col width="11%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">G</th>
+<th align="center">PG</th>
+<th align="center">PG-13</th>
+<th align="center">R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Action</strong></td>
+<td align="center">1</td>
+<td align="center">112</td>
+<td align="center">517</td>
+<td align="center">679</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Comedy</strong></td>
+<td align="center">18</td>
+<td align="center">350</td>
+<td align="center">706</td>
+<td align="center">923</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Drama</strong></td>
+<td align="center">10</td>
+<td align="center">116</td>
+<td align="center">410</td>
+<td align="center">763</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="graphical-summaries" class="section level2 tabset tabset-fade">
+<h2>Graphical Summaries</h2>
+<div id="nothing-2" class="section level3">
+<h3>Nothing</h3>
+</div>
+<div id="scatterplot" class="section level3">
+<h3>Scatterplot</h3>
+<pre class="r"><code>GoodFamily$budget &lt;- as.integer(GoodFamily$budget)
+plot(gross~budget, data = GoodFamily, xlab=&quot;Movie Budget&quot;, ylab=&quot;Gross Revenue&quot;, col=&quot;gray&quot;, pch=19,
+     main=&quot;G-Rated High Grossing Movies\n1986 through 2016&quot;)
+abline(lm(gross~budget, data = GoodFamily))
+BestGF&lt;-subset(GoodFamily, budget&gt;=median(GoodFamily$budget))
+points(gross~budget, data = BestGF, col=&quot;steelblue&quot;, pch=8)
+abline(v=median(GoodFamily$budget), lty=5, col=&quot;red&quot;, lwd=2)</code></pre>
+<p><img src="HarmonCode_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="histogram" class="section level3">
+<h3>Histogram</h3>
+<pre class="r"><code>hist(Movies.wb$budget, xlab=&quot;Budget in Dollars&quot;, col=&quot;orange&quot;, main=&quot;&quot;)
+title(&quot;Reported Budgets for movies&quot;, line=2)
+title(&quot;1986-2016&quot;, line=1)</code></pre>
+<p><img src="HarmonCode_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="boxplot" class="section level3">
+<h3>boxplot</h3>
+<pre class="r"><code>boxplot(budget~rating, data=Movies.wb, ylab=&quot;MPAA Rating&quot;, xlab=&quot;Bugdet in Dollars&quot;, 
+        col=c(&quot;gray&quot;,&quot;orangered&quot;), main=&quot;&quot;,
+        horizontal=TRUE)
+title(&quot;Reported Budgets for movies&quot;, line=2)
+title(&quot;1986-2016&quot;, line=1)</code></pre>
+<p><img src="HarmonCode_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="dotplot" class="section level3">
+<h3>dotplot</h3>
+<pre class="r"><code>stripchart(budget~genre, data=GoodFamily, method=&quot;stack&quot; ,ylab=&quot;Genre&quot;, xlab=&quot;Budget in Dollars&quot;, 
+           main=&quot;G-Rated High Grossing Movies\n and Their Budgets\n1986 through 2016&quot;, col=&quot;sienna&quot;, pch=16)  </code></pre>
+<p><img src="HarmonCode_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+</div>
+<div id="inference" class="section level2 tabset tabset-fade">
+<h2>Inference</h2>
+<div id="nothing-3" class="section level3">
+<h3>Nothing</h3>
+</div>
+<div id="t-test" class="section level3">
+<h3>t-Test</h3>
+<p>Do R-Rated movies have a significantly greater mean IMDB score than other ratings (G, PG, or PG-13)?</p>
+<p><span class="math display">\[
+{ H }_{ 0 }:{ \mu  }_{ R:Score }={ \mu  }_{ other:Score }\\ { H }_{ a }:{ \mu  }_{ R:Score }&gt;{ \mu  }_{ other:Score}
+\]</span></p>
+<pre class="r"><code>mrs4$R&lt;-mrs4$rating
+
+RTF &lt;- mrs4$R
+RTF[RTF != &quot;R&quot;] &lt;- FALSE
+RTF[RTF == &quot;R&quot;] &lt;- TRUE 
+mrs4$R &lt;- RTF</code></pre>
+<div id="sample-statistics" class="section level4">
+<h4>Sample Statistics</h4>
+<pre class="r"><code>pander::pander(favstats(score~R, data = mrs4))</code></pre>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="8%" />
+<col width="8%" />
+<col width="12%" />
+<col width="8%" />
+<col width="8%" />
+<col width="10%" />
+<col width="12%" />
+<col width="9%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">R</th>
+<th align="center">min</th>
+<th align="center">Q1</th>
+<th align="center">median</th>
+<th align="center">Q3</th>
+<th align="center">max</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">n</th>
+<th align="center">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">FALSE</td>
+<td align="center">1.5</td>
+<td align="center">5.6</td>
+<td align="center">6.3</td>
+<td align="center">6.9</td>
+<td align="center">9</td>
+<td align="center">6.229</td>
+<td align="center">1.05</td>
+<td align="center">3093</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">TRUE</td>
+<td align="center">1.6</td>
+<td align="center">5.9</td>
+<td align="center">6.5</td>
+<td align="center">7.1</td>
+<td align="center">9.3</td>
+<td align="center">6.453</td>
+<td align="center">0.9418</td>
+<td align="center">3392</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>R&lt;-subset(mrs4, R %in% TRUE) 
+notR&lt;-subset(mrs4, R %in% FALSE)
+par(mfrow=c(1,2))
+qqPlot(R$score, xlab = &quot;Ranked Z Scores&quot;, ylab = &quot;IMDB Score&quot;, main = &quot;R-rated Movies&quot;)
+qqPlot(notR$score, xlab = &quot;Ranked Z Scores&quot;, ylab = &quot;IMDB Score&quot;, main = &quot;non-R-rated Movies&quot;)</code></pre>
+<p><img src="HarmonCode_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="assumptions" class="section level4">
+<h4>Assumptions</h4>
+<ol style="list-style-type: decimal">
+<li>These samples <strong>can</strong> be assumed to be representative of the population movies of this type.</li>
+<li>According to the QQ-Plots these samples appear to be <strong>not</strong> normal enough.</li>
+</ol>
+</div>
+<div id="independent-2-sample-t-test" class="section level4">
+<h4>Independent 2 sample t-Test</h4>
+<pre class="r"><code>ttp&lt;-t.test(R$score,notR$score, mu = 0, alternative = &quot;greater&quot;, conf.level = 0.95)$p.value
+tts&lt;-t.test(R$score,notR$score, mu = 0, alternative = &quot;greater&quot;, conf.level = 0.95)$statistic
+ttdf&lt;-t.test(R$score,notR$score, mu = 0, alternative = &quot;greater&quot;, conf.level = 0.95)$parameter
+
+U&lt;-abs(tts)+1
+L&lt;-U*(-1)
+
+tcv&lt;-qt(.95, ttdf)
+
+
+
+# Create data for the area to shade
+TX&lt;-seq(tts,U,.01)
+cord.x &lt;- c(tts,TX,U) 
+cord.y &lt;- c(0,dt(TX,ttdf),0) 
+
+# Make a curve
+curve(dt(x,ttdf), xlim=c(L,U), main=&quot;t-Test for the IMDB score of R-rated movies \ncompared to scores of other rated movies&quot;, xlab = &quot;&quot;) 
+
+# Add the shaded area.
+polygon(cord.x,cord.y,col=&#39;skyblue&#39;)
+abline(v=tts, lty=5, col=&quot;red&quot;, lwd=2)
+abline(v=tcv, lty=5, col=&quot;blue&quot;, lwd=2)
+text(tcv,.39,&quot;Critical Value&quot;, col=&quot;blue&quot;)
+text(tts,.37,&quot;Test Statistic&quot;, col=&quot;red&quot;)</code></pre>
+<p><img src="HarmonCode_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<pre class="r"><code>pander(t.test(R$score,notR$score, mu = 0, alternative = &quot;greater&quot;, conf.level = 0.95))</code></pre>
+<table>
+<caption>Welch Two Sample t-test: <code>R$score</code> and <code>notR$score</code> (continued below)</caption>
+<colgroup>
+<col width="21%" />
+<col width="8%" />
+<col width="23%" />
+<col width="32%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Test statistic</th>
+<th align="center">df</th>
+<th align="center">P value</th>
+<th align="center">Alternative hypothesis</th>
+<th align="center">mean of x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">9.031</td>
+<td align="center">6233</td>
+<td align="center">1.112e-19 * * *</td>
+<td align="center">greater</td>
+<td align="center">6.453</td>
+</tr>
+</tbody>
+</table>
+<table style="width:15%;">
+<colgroup>
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">mean of y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">6.229</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The Test Statistic <strong>(9.0313243)</strong> is greater than the Critical Value <strong>(1.6450981)</strong></li>
+<li>The p-value <strong>(1.112021410^{-19})</strong> is smaller than the Level of Significance <strong><span class="math inline">\(\alpha = .05\)</span></strong></li>
+</ul>
+<p>Therefore, there is <strong>sufficient evidence</strong> to conclude that R-rated movies have a higher average IMDB score than other movies.</p>
+</div>
+</div>
+<div id="wilcoxon-signed-rank-test" class="section level3 tabset tabset-fade tabset-pills">
+<h3>Wilcoxon Signed-Rank Test</h3>
+<pre class="r"><code>favstats(score~year, data = mrs4)</code></pre>
+<pre><code>##    year min    Q1 median    Q3 max     mean        sd   n missing
+## 1  1986 2.9 5.500   5.90 6.900 8.4 6.073206 1.0267807 209       0
+## 2  1987 2.2 5.400   6.20 6.900 8.3 6.109859 1.1310149 213       0
+## 3  1988 3.4 5.700   6.10 6.900 8.5 6.205556 0.9439978 216       0
+## 4  1989 2.8 5.500   6.20 6.800 8.3 6.116744 0.9783156 215       0
+## 5  1990 1.6 5.600   6.20 7.000 8.7 6.208920 1.0434274 213       0
+## 6  1991 2.8 5.700   6.40 7.000 8.6 6.318779 0.9434603 213       0
+## 7  1992 3.5 5.700   6.40 7.000 8.3 6.335644 0.8741830 202       0
+## 8  1993 3.5 5.650   6.40 7.050 8.9 6.305314 1.0470582 207       0
+## 9  1994 2.4 5.500   6.30 7.100 9.3 6.235377 1.1211552 212       0
+## 10 1995 3.9 5.800   6.40 6.900 8.6 6.336842 0.9368172 209       0
+## 11 1996 2.4 5.600   6.25 6.900 8.2 6.176168 1.0215712 214       0
+## 12 1997 2.7 5.600   6.40 7.000 8.6 6.260766 1.0995591 209       0
+## 13 1998 2.3 5.800   6.40 7.050 8.6 6.343478 1.0685911 207       0
+## 14 1999 2.5 5.800   6.50 7.100 8.8 6.373934 1.0851522 211       0
+## 15 2000 2.4 5.700   6.40 7.000 8.5 6.289447 1.0297294 199       0
+## 16 2001 2.2 5.900   6.50 7.100 8.8 6.433178 0.9868013 214       0
+## 17 2002 3.0 5.600   6.50 7.100 8.7 6.355556 1.0575385 216       0
+## 18 2003 2.0 5.600   6.40 7.100 8.9 6.342927 1.1106486 205       0
+## 19 2004 2.0 5.900   6.60 7.300 8.3 6.466829 1.0636011 205       0
+## 20 2005 2.2 5.800   6.50 7.100 8.3 6.358962 1.0644024 212       0
+## 21 2006 2.7 5.800   6.60 7.125 8.5 6.466827 0.9798479 208       0
+## 22 2007 2.3 5.900   6.60 7.200 8.5 6.470698 1.0242513 215       0
+## 23 2008 1.9 5.900   6.50 7.000 9.0 6.338863 1.0581235 211       0
+## 24 2009 2.6 5.800   6.50 7.100 8.4 6.415238 0.9541931 210       0
+## 25 2010 3.5 5.900   6.40 7.100 8.8 6.431034 0.9071620 203       0
+## 26 2011 3.4 5.900   6.50 7.100 8.6 6.444335 0.8692804 203       0
+## 27 2012 3.8 5.800   6.50 7.100 8.4 6.430918 0.8807051 207       0
+## 28 2013 3.5 6.100   6.50 7.100 8.2 6.556039 0.7985726 207       0
+## 29 2014 1.5 6.075   6.50 7.200 8.6 6.547642 0.9214886 212       0
+## 30 2015 4.1 6.000   6.50 7.100 8.2 6.467327 0.8508245 202       0
+## 31 2016 3.9 6.000   6.50 7.200 8.5 6.542233 0.8404487 206       0</code></pre>
+<pre class="r"><code>wilcox.test(score~rating, data = mrs4, subset = rating %in% c(&quot;R&quot;,&quot;G&quot;))</code></pre>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  score by rating
+## W = 250730, p-value = 0.907
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code>t.test(score~rating, data = subset(mrs4, rating %in% c(&quot;R&quot;,&quot;G&quot;)))</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  score by rating
+## t = -0.1694, df = 156.07, p-value = 0.8657
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.1914028  0.1611664
+## sample estimates:
+## mean in group G mean in group R 
+##        6.438095        6.453213</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

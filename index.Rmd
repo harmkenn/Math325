@@ -1,0 +1,323 @@
+---
+title: "Table of Contents"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+
+---
+```{r, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(knitr)
+Movies31<-read.csv("./Data/movies31.csv", header=TRUE, stringsAsFactors = FALSE)
+mr4<-subset(Movies31, rating %in% c("G","PG","PG-13","R") )
+
+```
+
+## Response Y: Quantitative {.tabset .tabset-fade}
+
+### Icon
+
+```{r out.width="6%"}
+
+#include_graphics('./Images/QuantY.png')
+```
+
+### Display{.tabset .tabset-fade}
+
+#### Histogram
+```{r}
+hist(mr4$budget/100000, xlab="Budget in Dollars", col="orange", main="Reported Budgets for movies \n1986-2016")
+```
+
+#### Boxplot
+```{r}
+boxplot(mr4$budget/1000000, xlab="Budget in Millions of Dollars", col="orange", main="Reported Budgets for movies \n1986-2016",
+        horizontal=TRUE)
+```
+
+### Inference (t-Test; Wilcoxon) {.tabset .tabset-fade}
+
+#### t-Test
+```{r}
+pander(t.test(mr4$budget, mu = mean(mr4$budget), alternative = "g", conf.level = 0.95))
+```
+
+
+#### Wilcoxon
+```{r}
+pander(wilcox.test(mr4$budget, mu = mean(mr4$budget) , alternative = "g"))
+```
+
+## Response Y: Quantitative
+## Explanitory X: Binomial {.tabset .tabset-fade}
+
+### Icon
+```{r out.width="10%"}
+##include_graphics('./Images/QuantYQualXg2.png')
+```
+
+### Display{.tabset .tabset-fade}
+
+#### Boxplot
+```{r}
+boxplot(mr4$budget/1000000, xlab="Budget in Millions of Dollars", col="orange", main="Reported Budgets for movies \n1986-2016",
+        horizontal=TRUE)
+boxplot(budget~rating, data=mr4, ylab="MPAA Rating", xlab="Bugdet in Dollars", 
+        col=c("gray","orangered"), main="",
+        horizontal=TRUE)
+title("Reported Budgets for movies", line=2)
+title("1986-2016", line=1)
+```
+
+#### QQ Plots
+```{r}
+
+par(mfrow=c(1,2))
+qqPlot(mr4$score, xlab = "Ranked Z Scores", ylab = "IMDB Score", main = "IMDB Score")
+```
+
+
+
+### Inference (2 Sample t-test; 2 Sample Wilcoxon) {.tabset .tabset-fade}
+
+#### t-Test
+```{r}
+W<-subset(Births78, wday == "Wed")
+T<-subset(Births78, wday == "Thurs")
+pander(t.test(W$births,T$births, mu = 0, alternative = "two.sided", conf.level = 0.95))
+```
+
+
+#### Wilcoxon
+```{r}
+pander(wilcox.test(births~wday, data = Births78, subset = wday %in% c("Wed", "Thurs")))
+```
+
+## Response Y: Quantitative
+## Explanitory X: Categorical with 3+ Levels {.tabset .tabset-fade}
+
+### Icon
+```{r out.width="10%"}
+#include_graphics('./Images/QuantYQualXg3plus.png')
+```
+
+### Display{.tabset .tabset-fade}
+
+#### Favstats
+
+```{r}
+pander::pander(favstats(score~rating, data = mr4))
+```
+
+#### Boxplots
+```{r}
+ggplot(data = mr4, aes(x = rating, y = score)) + geom_boxplot()  + aes(colour = rating) + labs(title = "IMDB Score \nfor Movies 1986-2016\nGrouped by MPAA Rating") + coord_flip() +labs(x="MPAA Rating", y="IMDB Score") 
+
+
+```
+
+#### Residuals
+```{r}
+
+
+DCAOV<-aov(score~rating, data = mr4)
+par(mfrow=c(1,2))
+plot(DCAOV, which=1:2, pch=16)
+
+```
+
+### Inference (ANOVA; Kruskal) {.tabset .tabset-fade}
+
+#### ANOVA
+```{r}
+DCAOV<-aov(length ~ sex + domhand + sex:domhand, data = KidsFeet)
+pander(DCAOV, caption = "ANOVA results")
+```
+
+#### Kruskal-Wallis
+
+```{r}
+pander(kruskal.test(price~ fuel, data=SaratogaHouses))
+kruskal.test(price~ fuel, data=SaratogaHouses)
+```
+
+## Response Y: Quantitative
+## Explanitory X: Quantitative {.tabset .tabset-fade}
+
+### Icon
+```{r out.width="10%"}
+#include_graphics('./Images/QuantYQuantX.png')
+```
+
+### Display{.tabset .tabset-fade}
+```{r}
+
+plot(waiting ~ eruptions, data=faithful)
+of.lm <- lm(waiting ~ eruptions, data=faithful)
+abline(of.lm)
+
+
+par(mfrow=c(1,2))
+plot(of.lm, which=1:2)
+par(mfrow = c(1,1))
+qqPlot(of.lm)
+
+```
+
+### Inference (Linear Regression) {.tabset .tabset-fade}
+```{r}
+pander(summary(of.lm))
+```
+
+## Response Y: Quantitative
+## Explanitory X1: Quantitative
+## Explanitory X2: Categorical {.tabset .tabset-fade}
+
+### Icon
+```{r out.width="20%"}
+#include_graphics('./Images/QuantYMultX.png')
+```
+
+### Display{.tabset .tabset-fade}
+
+```{r}
+lmcars <- lm(mpg ~ qsec + am + qsec:am, data=mtcars)
+lmcars
+
+
+par(mfrow=c(1,2))
+plot(lmcars, which=1:2)
+par(mfrow = c(1,1))
+
+lmcars$coefficients
+b<-lmcars$coefficients
+palette(c("blue","red"))
+plot(mpg ~ qsec,data=mtcars, col=as.factor(mtcars$am),pch=16)
+abline(b[1], b[2], col="blue")
+abline(b[1]+ b[3],b[2]+ b[4], col="red")
+legend("topright",c("Automatic","Manual"), lty=1, lwd=5, col=palette(), cex=0.7, title="Transmission")
+```
+
+
+### Inference (Multiple Linear Regression) {.tabset .tabset-fade}
+
+```{r}
+summary(lmcars)
+pander(lmcars)
+```
+
+
+## Response Y: Binomial
+## Explanitory X: Quantitative  {.tabset .tabset-fade}
+
+### Icon
+```{r out.width="10%"}
+#include_graphics('./Images/BinomYQuantX.png')
+```
+
+### Display {.tabset .tabset-fade}
+```{r}
+HG<-Galton
+HG$bs<-as.integer(Galton$sex)-1
+HG$bs<-as.integer(HG$bs)
+h.glm <- glm(bs ~ height, data=HG, family=binomial)
+
+b<-h.glm$coefficients
+plot(bs~ height, data=HG)
+curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)
+pm<-predict(h.glm, data.frame(height=65), type='response')
+```
+
+
+
+### Inference (Logistic Regression) {.tabset .tabset-fade}
+```{r, warning=FALSE, message=FALSE}
+pander(summary(h.glm))
+
+library(ResourceSelection)
+
+pander(hoslem.test(h.glm$y, h.glm$fitted, g=10))
+# Note: doesn't give a p-value for g >= 7, default is g=10.
+# Larger g is usually better than smaller g.
+```
+
+## Response Y: Binomial
+## Explanitory X1: Quantitative  
+## Explanitory X2: Categorical  {.tabset .tabset-fade}
+
+### Icon
+```{r out.width="20%"}
+#include_graphics('./Images/BinomYMultX.png')
+```
+
+### Display{.tabset .tabset-fade}
+```{r}
+library(robustbase)
+FSP.glm <- glm(participation ~ income + tenancy , data=foodstamp, family=binomial)
+
+b<-FSP.glm$coefficients
+pvLR<-coef(summary(FSP.glm))[2,4]
+
+hlpv<-hoslem.test(FSP.glm$y, FSP.glm$fitted)$p.value
+plot(participation ~ income, data=foodstamp, pch=16, cex=0.5, xlim=c(0,5000), xlab= "income", ylab="Food Stamp Program")
+
+curve(exp(b[1] + b[2]*x)/(1+exp(b[1] + b[2]*x)),from=0, to=5000,  add=TRUE, col='Blue')
+
+curve(exp(b[1]+b[3] + (b[2])*x)/(1+exp(b[1]+b[3] + (b[2])*x)),from=0, to=5000,  add=TRUE, col='red')
+
+legend("right", legend=c("Not Own Home", "Own Home"), col=c("Blue","red"), lty=1)
+
+table(foodstamp$income, foodstamp$tenancy)
+
+
+
+
+pchisq(131.90, 149)
+pchisq(106.90, 147)
+pchisq(131.90-106.65, 2)
+```
+
+The odds of participating in food stamps if you own a home is `r exp(b[3])` of the odds of participating in food stamps if you do not own a home. This makes it `r 1/exp(b[3])` times more likely to participate in food stamps if you do not own a home even if you have the same income.
+
+
+### Inference (Multiple Logistic Regression) {.tabset .tabset-fade}
+
+```{r}
+pander(summary(FSP.glm))
+pander(hoslem.test(FSP.glm$y, FSP.glm$fitted))
+```
+
+
+## 2 Category {.tabset .tabset-fade}
+
+### Icon
+```{r out.width="10%"}
+#include_graphics('./Images/QualYQualX.png')
+```
+
+### Display{.tabset .tabset-fade}
+```{r}
+education <- cbind( `United States` = c(Engineering = 61941, `Natural Science` = 111158, `Social Science` = 182166), `Western Europe` = c(Engineering = 158931, `Natural Science` = 140126, `Social Science` = 116353), Asia = c(280772, 242879, 236018))
+chisq.ed <- chisq.test(education)
+barplot(education, beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft", bty="n"))
+barplot(chisq.ed$residuals, beside=TRUE, legend.text=TRUE, args.legend=list(x = "topleft", bty="n"))
+```
+
+
+### Inference (Chi-square) {.tabset .tabset-fade}
+
+```{r}
+
+
+chisq.ed$expected 
+chisq.ed
+chisq.ed$residuals
+
+```
+
+
