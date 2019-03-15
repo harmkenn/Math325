@@ -91,8 +91,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -108,7 +114,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -128,6 +133,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -149,13 +191,73 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
 });
 </script>
 
@@ -168,7 +270,6 @@ $(document).ready(function () {
   window.initializeCodeFolding("hide" === "show");
 });
 </script>
-
 
 
 
@@ -371,14 +472,14 @@ $(document).ready(function () {
 <div id="t-test" class="section level4">
 <h4>t-Test</h4>
 <pre class="r"><code>pander(t.test(mr4$budget, mu = mean(mr4$budget), alternative = &quot;g&quot;, conf.level = 0.95))</code></pre>
-<table style="width:97%;">
+<table style="width:99%;">
 <caption>One Sample t-test: <code>mr4$budget</code></caption>
 <colgroup>
 <col width="23%" />
 <col width="9%" />
 <col width="13%" />
 <col width="34%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -403,12 +504,12 @@ $(document).ready(function () {
 <div id="wilcoxon" class="section level4">
 <h4>Wilcoxon</h4>
 <pre class="r"><code>pander(wilcox.test(mr4$budget, mu = mean(mr4$budget) , alternative = &quot;g&quot;))</code></pre>
-<table style="width:71%;">
+<table style="width:72%;">
 <caption>Wilcoxon signed rank test with continuity correction: <code>mr4$budget</code></caption>
 <colgroup>
 <col width="23%" />
 <col width="13%" />
-<col width="33%" />
+<col width="34%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -455,6 +556,7 @@ title(&quot;1986-2016&quot;, line=1)</code></pre>
 <h4>QQ Plots</h4>
 <pre class="r"><code>par(mfrow=c(1,2))
 qqPlot(mr4$score, xlab = &quot;Ranked Z Scores&quot;, ylab = &quot;IMDB Score&quot;, main = &quot;IMDB Score&quot;)</code></pre>
+<pre><code>## [1] 6038 1056</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 </div>
@@ -465,63 +567,12 @@ qqPlot(mr4$score, xlab = &quot;Ranked Z Scores&quot;, ylab = &quot;IMDB Score&qu
 <pre class="r"><code>W&lt;-subset(Births78, wday == &quot;Wed&quot;)
 T&lt;-subset(Births78, wday == &quot;Thurs&quot;)
 pander(t.test(W$births,T$births, mu = 0, alternative = &quot;two.sided&quot;, conf.level = 0.95))</code></pre>
-<table style="width:100%;">
-<caption>Welch Two Sample t-test: <code>W$births</code> and <code>T$births</code></caption>
-<colgroup>
-<col width="20%" />
-<col width="9%" />
-<col width="11%" />
-<col width="29%" />
-<col width="14%" />
-<col width="14%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">Test statistic</th>
-<th align="center">df</th>
-<th align="center">P value</th>
-<th align="center">Alternative hypothesis</th>
-<th align="center">mean of x</th>
-<th align="center">mean of y</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">0.1443</td>
-<td align="center">98.94</td>
-<td align="center">0.8855</td>
-<td align="center">two.sided</td>
-<td align="center">9498</td>
-<td align="center">9484</td>
-</tr>
-</tbody>
-</table>
+<p>Error in t.test.default(x, y = y, alternative = alternative, mu = mu, : not enough ‘y’ observations Calls: <Anonymous> … t.test -&gt; t_test.default -&gt; <Anonymous> -&gt; t.test.default</p>
 </div>
 <div id="wilcoxon-1" class="section level4">
 <h4>Wilcoxon</h4>
 <pre class="r"><code>pander(wilcox.test(births~wday, data = Births78, subset = wday %in% c(&quot;Wed&quot;, &quot;Thurs&quot;)))</code></pre>
-<table style="width:71%;">
-<caption>Wilcoxon rank sum test with continuity correction: <code>births</code> by <code>wday</code></caption>
-<colgroup>
-<col width="23%" />
-<col width="13%" />
-<col width="33%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="center">Test statistic</th>
-<th align="center">P value</th>
-<th align="center">Alternative hypothesis</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">1354</td>
-<td align="center">0.9948</td>
-<td align="center">two.sided</td>
-</tr>
-</tbody>
-</table>
+<p>Error in wilcox.test.formula(births ~ wday, data = Births78, subset = wday %in% : grouping factor must have exactly 2 levels Calls: <Anonymous> … eval -&gt; pander -&gt; wilcox.test -&gt; wilcox.test.formula</p>
 </div>
 </div>
 </div>
@@ -539,18 +590,18 @@ pander(t.test(W$births,T$births, mu = 0, alternative = &quot;two.sided&quot;, co
 <div id="favstats" class="section level4">
 <h4>Favstats</h4>
 <pre class="r"><code>pander::pander(favstats(score~rating, data = mr4))</code></pre>
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="12%" />
-<col width="8%" />
-<col width="8%" />
-<col width="12%" />
-<col width="8%" />
-<col width="8%" />
+<col width="11%" />
+<col width="7%" />
+<col width="7%" />
+<col width="11%" />
+<col width="7%" />
+<col width="7%" />
 <col width="10%" />
-<col width="12%" />
+<col width="11%" />
 <col width="9%" />
-<col width="12%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -696,12 +747,12 @@ pander(DCAOV, caption = &quot;ANOVA results&quot;)</code></pre>
 <div id="kruskal-wallis" class="section level4">
 <h4>Kruskal-Wallis</h4>
 <pre class="r"><code>pander(kruskal.test(price~ fuel, data=SaratogaHouses))</code></pre>
-<table style="width:54%;">
+<table style="width:56%;">
 <caption>Kruskal-Wallis rank sum test: <code>price</code> by <code>fuel</code></caption>
 <colgroup>
 <col width="23%" />
 <col width="6%" />
-<col width="23%" />
+<col width="25%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -748,17 +799,18 @@ plot(of.lm, which=1:2)</code></pre>
 <pre class="r"><code>par(mfrow = c(1,1))
 qqPlot(of.lm)</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-19-3.png" width="672" /></p>
+<pre><code>## [1] 158 197</code></pre>
 </div>
 <div id="inference-linear-regression" class="section level3 tabset tabset-fade">
 <h3>Inference (Linear Regression)</h3>
 <pre class="r"><code>pander(summary(of.lm))</code></pre>
-<table style="width:88%;">
+<table style="width:89%;">
 <colgroup>
 <col width="25%" />
 <col width="15%" />
 <col width="18%" />
 <col width="13%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -786,13 +838,13 @@ qqPlot(of.lm)</code></pre>
 </tr>
 </tbody>
 </table>
-<table style="width:86%;">
+<table style="width:88%;">
 <caption>Fitting linear model: waiting ~ eruptions</caption>
 <colgroup>
 <col width="20%" />
 <col width="30%" />
 <col width="12%" />
-<col width="22%" />
+<col width="23%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -876,14 +928,14 @@ legend(&quot;topright&quot;,c(&quot;Automatic&quot;,&quot;Manual&quot;), lty=1, 
 ## Multiple R-squared:  0.722,  Adjusted R-squared:  0.6923 
 ## F-statistic: 24.24 on 3 and 28 DF,  p-value: 6.129e-08</code></pre>
 <pre class="r"><code>pander(lmcars)</code></pre>
-<table style="width:86%;">
+<table style="width:88%;">
 <caption>Fitting linear model: mpg ~ qsec + am + qsec:am</caption>
 <colgroup>
 <col width="25%" />
 <col width="15%" />
 <col width="18%" />
 <col width="13%" />
-<col width="13%" />
+<col width="15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -952,13 +1004,13 @@ curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)</code></pre>
 <div id="inference-logistic-regression" class="section level3 tabset tabset-fade">
 <h3>Inference (Logistic Regression)</h3>
 <pre class="r"><code>pander(summary(h.glm))</code></pre>
-<table style="width:88%;">
+<table style="width:89%;">
 <colgroup>
 <col width="25%" />
 <col width="15%" />
 <col width="18%" />
 <col width="13%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -987,10 +1039,10 @@ curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)</code></pre>
 </tbody>
 </table>
 <p>(Dispersion parameter for binomial family taken to be 1 )</p>
-<table style="width:68%;">
+<table style="width:69%;">
 <colgroup>
 <col width="29%" />
-<col width="38%" />
+<col width="40%" />
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -1006,12 +1058,12 @@ curve(exp(b[1]+b[2]*x)/(1+exp(b[1]+b[2]*x)), add=TRUE)</code></pre>
 <pre class="r"><code>library(ResourceSelection)
 
 pander(hoslem.test(h.glm$y, h.glm$fitted, g=10))</code></pre>
-<table style="width:43%;">
+<table style="width:44%;">
 <caption>Hosmer and Lemeshow goodness of fit (GOF) test: <code>h.glm$y, h.glm$fitted</code></caption>
 <colgroup>
 <col width="23%" />
 <col width="6%" />
-<col width="12%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1046,9 +1098,8 @@ pander(hoslem.test(h.glm$y, h.glm$fitted, g=10))</code></pre>
 </div>
 <div id="display-6" class="section level3 tabset tabset-fade">
 <h3>Display</h3>
-<pre class="r"><code>library(robustbase)</code></pre>
-<pre><code>## Warning: package &#39;robustbase&#39; was built under R version 3.4.4</code></pre>
-<pre class="r"><code>FSP.glm &lt;- glm(participation ~ income + tenancy , data=foodstamp, family=binomial)
+<pre class="r"><code>library(robustbase)
+FSP.glm &lt;- glm(participation ~ income + tenancy , data=foodstamp, family=binomial)
 
 b&lt;-FSP.glm$coefficients
 pvLR&lt;-coef(summary(FSP.glm))[2,4]
@@ -1214,13 +1265,13 @@ legend(&quot;right&quot;, legend=c(&quot;Not Own Home&quot;, &quot;Own Home&quot
 <div id="inference-multiple-logistic-regression" class="section level3 tabset tabset-fade">
 <h3>Inference (Multiple Logistic Regression)</h3>
 <pre class="r"><code>pander(summary(FSP.glm))</code></pre>
-<table style="width:89%;">
+<table style="width:90%;">
 <colgroup>
 <col width="25%" />
 <col width="16%" />
 <col width="18%" />
 <col width="13%" />
-<col width="15%" />
+<col width="16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1256,10 +1307,10 @@ legend(&quot;right&quot;, legend=c(&quot;Not Own Home&quot;, &quot;Own Home&quot
 </tbody>
 </table>
 <p>(Dispersion parameter for binomial family taken to be 1 )</p>
-<table style="width:67%;">
+<table style="width:68%;">
 <colgroup>
 <col width="29%" />
-<col width="37%" />
+<col width="38%" />
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -1273,12 +1324,12 @@ legend(&quot;right&quot;, legend=c(&quot;Not Own Home&quot;, &quot;Own Home&quot
 </tbody>
 </table>
 <pre class="r"><code>pander(hoslem.test(FSP.glm$y, FSP.glm$fitted))</code></pre>
-<table style="width:43%;">
+<table style="width:44%;">
 <caption>Hosmer and Lemeshow goodness of fit (GOF) test: <code>FSP.glm$y, FSP.glm$fitted</code></caption>
 <colgroup>
 <col width="23%" />
 <col width="6%" />
-<col width="12%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">

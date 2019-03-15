@@ -1,0 +1,162 @@
+---
+title: "Car Prices ANOVA Permutation"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r Libraries, include=FALSE}
+library(mosaic)
+library(DT) 
+library(knitr)
+library(pander)
+library(car)
+library(plyr)
+library(dplyr)
+library(ResourceSelection)
+options(scipen=999)
+library(tidyverse)
+```
+
+```{r Datafix}
+CarPrices <- read.csv("../Data/CarPrices.csv", header=TRUE, stringsAsFactors = FALSE)
+Malibu<-subset(CarPrices,Model=="Malibu")
+```
+
+## {.tabset .tabset-fade}
+
+### Overview
+
+I have a data set of selling prices for 6 different trim packages for the Chevy Malibu. I would like to test to see if there is a difference in selling price among the difference trim packages.
+
+I will test this using two different methods:
+
+1. ANOVA
+2. Permutation Test
+
+Both tests use the same set of hypotheses.
+
+$$
+  H_0:\text{All trim packages have the same mean selling price.}
+$$
+$$
+  H_a:\text{Not all trim packages have the same mean selling price.}
+$$
+
+
+#### Dataset
+
+```{r Showdata}
+datatable(Malibu, extensions = "Responsive",options=list(lengthMenu = c(5,10,20)))
+```
+
+### (One-Way) ANOVA
+
+```{r}
+mt.aov <- aov(Price~Trim, data=Malibu)
+afts <- summary(mt.aov)[[1]]$`F value`[1]
+apv<-summary(mt.aov)[[1]]$`Pr(>F)`[1]
+adf1<-summary(mt.aov)[[1]]$`Df`[1]
+adf2<-summary(mt.aov)[[1]]$`Df`[2]
+```
+
+Ignoring the assumptions necessary to perform an ANOVA test, I get these results.
+
+```{r}
+
+U<-abs(afts)+3
+L<-(-.2)
+
+# Create data for the area to shade
+FX<-seq(afts,U,.01)
+cord.x <- c(afts,FX,U) 
+cord.y <- c(0,df(FX,adf1,adf2),0) 
+
+curve(df(x,adf1,adf2), xlim=c(L,U), main="ANOVA results", xlab = "F") 
+
+# Add the shaded area.
+
+polygon(cord.x,cord.y,col='#0000FF64')
+#transred<-rgb(255,0,0,max=255,alpha=100,names="transred")
+abline(v=afts, lty=5, col="red", lwd=2)
+
+text(afts,.37,"Test Statistic", col="red")
+text(afts+.4,.03,"p-value", col="red")
+```
+
+```{r, warning=FALSE}
+pander(summary(mt.aov))
+```
+
+#### Summary Statistics
+
+```{r}
+pander(favstats(Price~Trim, data=Malibu))
+```
+
+
+### Permutation Test
+
+```{r, warning=FALSE}
+# For this permutation, we need to shake up the groups similar to the Independent Sample example
+N <- 4321
+permutedTestStats <- rep(NA, N)
+for (i in 1:N){
+  permutedData <- sample(Malibu$Price)
+  permutedTest <- aov(permutedData ~ Trim, data = Malibu)
+  permutedTestStats[i] <- summary(permutedTest)[[1]]$`F value`[1]
+}
+
+# The histogram of this distribution gives an interesting insight into the results
+hist(permutedTestStats, xlim=c(L,U),col = "skyblue",breaks=50, main="Permutation results", xlab = "F",
+     freq=FALSE)
+
+abline(v = afts, lty=5 ,col = "red", lwd = 2)
+text(afts,.37,"Test Statistic", col="red")
+text(afts+.4,.03,"p-value", col="red")
+
+
+
+# Here is the greater-than p-value:
+ppv<-sum(permutedTestStats >= afts)/N
+```
+
+The p-value I get from performing the permutation test is **`r ppv`**
+
+### Interpretation
+
+Because the test distributions for both test look very similar and because both p-values (`r ppv` ≈ `r apv`) are nearly equivalent, I consider both tests equivalent. Also, I feel that the assumptions that I ignored in the ANOVA test must have held true. 
+
+#### Conclusion
+
+Because both p-values (`r ppv` ≈ `r apv`) are not significant enough, there is not enough evidence to reject that all trim packages have the same mean selling price. It is apparent that the different trim packages do not contribute enough to a significant price change. 
+
+```{r}
+curve(df(x,adf1,adf2), xlim=c(L,U), main="ANOVA results", xlab = "F") 
+
+# Add the shaded area.
+
+polygon(cord.x,cord.y,col='#0000FF64')
+#transred<-rgb(255,0,0,max=255,alpha=100,names="transred")
+abline(v=afts, lty=5, col="red", lwd=2)
+
+text(afts,.37,"Test Statistic", col="red")
+text(afts+.4,.03,"p-value", col="red")
+hist(permutedTestStats, xlim=c(L,U),col = "skyblue",breaks=50, main="Permutation results", xlab = "F",
+     freq=FALSE)
+
+abline(v = afts, lty=5 ,col = "red", lwd = 2)
+text(afts,.37,"Test Statistic", col="red")
+text(afts+.4,.03,"p-value", col="red")
+```
+
+
+
+
+
+
+
+
+
+
